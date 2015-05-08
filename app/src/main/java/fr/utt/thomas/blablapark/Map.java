@@ -1,11 +1,14 @@
 package fr.utt.thomas.blablapark;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.TextView;
 
 import org.osmdroid.views.MapView;
@@ -16,29 +19,18 @@ import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
 
 public class Map extends Activity implements LocationListener {
 
-    MapView map;
-    TextView longitude ;
-    TextView latitude;
-    MyLocationNewOverlay myLocation;
+    String longitude ;
+    String latitude;
     LocationManager locMgr;
-    MapController mapController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
 
-        longitude = (TextView) findViewById(R.id.textView3);
-        latitude = (TextView) findViewById(R.id.textView2);
-
         locMgr = (LocationManager) getSystemService(LOCATION_SERVICE);
 
-        initializeMap();
         initializeLocalization();
-
-        String geo = "geo:0,0?q="+latitude+","+longitude+"("+nomLieu+")";
-        //lance Google Maps
-        showMap(Uri.parse(geo));
     }
 
     private void initializeLocalization() {
@@ -46,31 +38,17 @@ public class Map extends Activity implements LocationListener {
         Criteria criteria = new Criteria();
         String provider = locMgr.getBestProvider(criteria, true);
         Location location = locMgr.getLastKnownLocation(provider);
-        Boolean pb = locMgr.isProviderEnabled(provider);
 
         if (location != null) {
-            System.out.println("Provider " + provider + " has been selected.");
+            Log.i("coucou", "Provider " + provider + " has been selected.");
             onLocationChanged(location);
             locMgr.removeUpdates(this);
         } else {
+            Log.i("coucou", "location null");
+            Log.i("coucou", "provider :"+provider);
+ //           locMgr.requestLocationUpdates(provider, 60000, 0, this);
             locMgr.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
-//test
-//            latitude.setText("Location not available");
-//            longitude.setText(pb.toString());
         }
-    }
-
-    public void initializeMap(){
-        map = (MapView) findViewById(R.id.mapview);
-        map.setTileSource(TileSourceFactory.DEFAULT_TILE_SOURCE);
-        GeoPoint startPoint = new GeoPoint(541541, 9735936);
-        mapController = (MapController) map.getController();
-        mapController.setCenter(startPoint);
-        map.setBuiltInZoomControls(true);
-        map.setMultiTouchControls(true);
-        mapController.setZoom(10);
-        map.setUseDataConnection(true);
-
     }
 
     protected void onResume() {
@@ -79,24 +57,17 @@ public class Map extends Activity implements LocationListener {
 
 
     public void onLocationChanged(Location location) {
-        //       int lat = (int) (location.getLatitude());
-        //       int lng = (int) (location.getLongitude());
-        //       latitude.setText(String.valueOf(lat));
-        //       longitude.setText(String.valueOf(lng));
 
-//        this.location = location;
-        String lat = String.valueOf(location.getLatitude());
-        String lng = String.valueOf(location.getLongitude());
-        System.out.println("provider");
-        System.out.println("lat");
-        System.out.println("lng");
-        latitude.setText(lat);
-        longitude.setText(lng+" ");
+        latitude = String.valueOf(location.getLatitude());
+        longitude = String.valueOf(location.getLongitude());
         locMgr.removeUpdates(this);
+        Log.i("coucou", "location : "+latitude+" "+longitude);
 
-        GeoPoint startPoint2 = new GeoPoint((int)(location.getLatitude() * 1E6),(int)(location.getLongitude() * 1E6) );//Integer.parseInt(lng.toString()) * 1E6
-        mapController.setCenter(startPoint2);
-        mapController.setZoom(20);
+//        String geo = "geo:0,0?q="+latitude+","+longitude+"coucou";
+//        //lance Google Maps
+//        showMap(Uri.parse(geo));
+
+        //à faire !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     }
 
     @Override
@@ -114,14 +85,14 @@ public class Map extends Activity implements LocationListener {
         locMgr.removeUpdates(this);
     }
 
-    //lance une application de localisation, sur notre téléphone il n'y a que Google Maps
-    public void showMap(Uri geoLocation) {
-        Intent intent = new Intent(Intent.ACTION_VIEW);
-        intent.setData(geoLocation);
-        if (intent.resolveActivity(getPackageManager()) != null) {
-            startActivity(intent);
-        }
-    }
+//    //lance une application de localisation, sur notre téléphone il n'y a que Google Maps
+//    public void showMap(Uri geoLocation) {
+//        Intent intent = new Intent(Intent.ACTION_VIEW);
+//        intent.setData(geoLocation);
+//        if (intent.resolveActivity(getPackageManager()) != null) {
+//            startActivity(intent);
+//        }
+//    }
 
 //    @Override
 //    public boolean onCreateOptionsMenu(Menu menu) {
