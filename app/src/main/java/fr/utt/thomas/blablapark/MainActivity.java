@@ -65,7 +65,16 @@ public class MainActivity extends ActionBarActivity
             fragmentManager.beginTransaction()
                     .replace(R.id.container, Parking.newInstance())
                     .commit();
+        } else if (position == 3) {
+            fragmentManager.beginTransaction()
+                    .replace(R.id.container, FindCar.newInstance())
+                    .commit();
         }
+//        else if (position == 4) {
+//        fragmentManager.beginTransaction()
+//                .replace(R.id.container, Parking.newInstance())
+//                .commit();
+//    }
     }
 
     public void onSectionAttached(int number) {
@@ -74,11 +83,17 @@ public class MainActivity extends ActionBarActivity
                 mTitle = getString(R.string.home);
                 break;
             case 2:
-                mTitle = getString(R.string.title_section2);
+                mTitle = getString(R.string.profil);
                 break;
             case 3:
-                mTitle = getString(R.string.title_section3);
+                mTitle = getString(R.string.parking);
                 break;
+            case 4:
+                mTitle = getString(R.string.findCar);
+                break;
+//            case 5:
+//                mTitle = getString(R.string.parking);
+//                break;
         }
     }
 
