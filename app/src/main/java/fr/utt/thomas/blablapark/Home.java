@@ -1,12 +1,14 @@
 package fr.utt.thomas.blablapark;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 
 
 /**
@@ -42,6 +44,17 @@ public class Home extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_home, container,
                 false);
+        ((ImageButton) rootView.findViewById(R.id.imageButton)).setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                //lance l'activité NouvellePersonneActivity
+
+ //               ((MainActivity) getActivity()).onSectionAttached(3);
+                Intent intentMap = new Intent(getActivity(), Map.class);
+                startActivity(intentMap);
+            }
+        });
         return rootView;
     }
 
