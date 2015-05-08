@@ -10,6 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 
+import com.google.android.gms.maps.SupportMapFragment;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -44,15 +46,16 @@ public class Home extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_home, container,
                 false);
+
         ((ImageButton) rootView.findViewById(R.id.imageButton)).setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                //lance l'activité NouvellePersonneActivity
+                //lance l'activitï¿½ NouvellePersonneActivity
 
  //               ((MainActivity) getActivity()).onSectionAttached(3);
                 Intent intentMap = new Intent(getActivity(), Map.class);
-                startActivity(intentMap);
+                getActivity().startActivity(intentMap);
             }
         });
         return rootView;

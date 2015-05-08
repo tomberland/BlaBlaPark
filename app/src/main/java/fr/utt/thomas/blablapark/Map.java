@@ -8,28 +8,34 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.widget.TextView;
 
-import org.osmdroid.views.MapView;
-import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
-import org.osmdroid.util.GeoPoint;
-import org.osmdroid.views.MapController;
-import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.SupportMapFragment;
 
-public class Map extends Activity implements LocationListener {
+
+public class Map extends FragmentActivity implements LocationListener {
 
     String longitude ;
     String latitude;
     LocationManager locMgr;
-
+    private GoogleMap gMap;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
 
         locMgr = (LocationManager) getSystemService(LOCATION_SERVICE);
+        SupportMapFragment mapFrag = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.map);
 
+        gMap = mapFrag.getMap();
+        gMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+        gMap.setMyLocationEnabled(true);
+        gMap.getUiSettings().setCompassEnabled(true);
+        Log.e("Maps", "------EOC-------");
         initializeLocalization();
     }
 
@@ -67,7 +73,7 @@ public class Map extends Activity implements LocationListener {
 //        //lance Google Maps
 //        showMap(Uri.parse(geo));
 
-        //à faire !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        //ï¿½ faire !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     }
 
     @Override
@@ -85,7 +91,7 @@ public class Map extends Activity implements LocationListener {
         locMgr.removeUpdates(this);
     }
 
-//    //lance une application de localisation, sur notre téléphone il n'y a que Google Maps
+//    //lance une application de localisation, sur notre tï¿½lï¿½phone il n'y a que Google Maps
 //    public void showMap(Uri geoLocation) {
 //        Intent intent = new Intent(Intent.ACTION_VIEW);
 //        intent.setData(geoLocation);
