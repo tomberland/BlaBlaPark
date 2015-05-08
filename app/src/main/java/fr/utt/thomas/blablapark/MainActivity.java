@@ -5,6 +5,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
@@ -51,9 +52,20 @@ public class MainActivity extends ActionBarActivity
     public void onNavigationDrawerItemSelected(int position) {
         // update the main content by replacing fragments
         FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction()
-                .replace(R.id.container, PlaceholderFragment.newInstance(position + 1))
-                .commit();
+        if (position == 0) {
+            fragmentManager.beginTransaction()
+                    .replace(R.id.container, Home.newInstance())
+                    .commit();
+
+        } else if (position == 1) {
+            fragmentManager.beginTransaction()
+                    .replace(R.id.container, Profil.newInstance())
+                    .commit();
+        } else if (position == 2) {
+            fragmentManager.beginTransaction()
+                    .replace(R.id.container, Parking.newInstance())
+                    .commit();
+        }
     }
 
     public void onSectionAttached(int number) {

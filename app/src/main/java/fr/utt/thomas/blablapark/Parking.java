@@ -12,12 +12,12 @@ import android.view.ViewGroup;
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link Home.OnFragmentInteractionListener} interface
+ * {@link Parking.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link Home#newInstance} factory method to
+ * Use the {@link Parking#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class Home extends Fragment {
+public class Parking extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -29,18 +29,18 @@ public class Home extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    public static Home newInstance() {
-        Home fragment = new Home();
+    public static Parking newInstance() {
+        Parking fragment = new Parking();
         return fragment;
     }
 
-    public Home() {
+    public Parking() {
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_home, container,
+        View rootView = inflater.inflate(R.layout.fragment_parking, container,
                 false);
         return rootView;
     }
@@ -55,9 +55,8 @@ public class Home extends Fragment {
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        ((MainActivity) activity).onSectionAttached(1);
+        ((MainActivity) activity).onSectionAttached(3);
     }
-
     @Override
     public void onDetach() {
         super.onDetach();
