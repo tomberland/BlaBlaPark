@@ -12,8 +12,13 @@ import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.widget.TextView;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 
 public class Map extends FragmentActivity implements LocationListener {
@@ -36,6 +41,13 @@ public class Map extends FragmentActivity implements LocationListener {
         gMap.setMyLocationEnabled(true);
         gMap.getUiSettings().setCompassEnabled(true);
         Log.e("Maps", "------EOC-------");
+
+//        LatLng current = new LatLng(Double.parseDouble(latitude), Double.parseDouble(longitude));
+//        // Move the camera instantly to hamburg with a zoom of 15.
+//        gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(current, 15));
+//
+//        // Zoom in, animating the camera.
+//        gMap.animateCamera(CameraUpdateFactory.zoomTo(10), 2000, null);
         initializeLocalization();
     }
 
@@ -44,6 +56,9 @@ public class Map extends FragmentActivity implements LocationListener {
         Criteria criteria = new Criteria();
         String provider = locMgr.getBestProvider(criteria, true);
         Location location = locMgr.getLastKnownLocation(provider);
+        Double lat = location.getLatitude();
+        Double lng = location.getLongitude();
+        LatLng currentPosition = new LatLng(lat, lng);
 
         if (location != null) {
             Log.i("coucou", "Provider " + provider + " has been selected.");
@@ -55,6 +70,22 @@ public class Map extends FragmentActivity implements LocationListener {
  //           locMgr.requestLocationUpdates(provider, 60000, 0, this);
             locMgr.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
         }
+
+//        Marker hamburg = gMap.addMarker(new MarkerOptions().position(currentPosition).title("Hamburg"));
+
+        Marker kiel = gMap.addMarker(new MarkerOptions()
+                .position(currentPosition)
+                .title("Hamburg")
+                .snippet("Hamburg is cool")
+                .icon(BitmapDescriptorFactory.fromResource(android.R.drawable.ic_menu_mylocation)));
+//                .icon(BitmapDescriptorFactory
+//                        .fromResource(R.drawable.ic_launcher)));
+
+        // Move the camera instantly to hamburg with a zoom of 15.
+        gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentPosition, 15));
+
+        // Zoom in, animating the camera.
+        gMap.animateCamera(CameraUpdateFactory.zoomTo(14), 2000, null);
     }
 
     protected void onResume() {
@@ -66,8 +97,9 @@ public class Map extends FragmentActivity implements LocationListener {
 
         latitude = String.valueOf(location.getLatitude());
         longitude = String.valueOf(location.getLongitude());
+
         locMgr.removeUpdates(this);
-        Log.i("coucou", "location : "+latitude+" "+longitude);
+        Log.i("coucou", "location : " + latitude + " " + longitude);
 
 //        String geo = "geo:0,0?q="+latitude+","+longitude+"coucou";
 //        //lance Google Maps
