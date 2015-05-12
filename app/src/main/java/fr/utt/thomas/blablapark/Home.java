@@ -2,8 +2,10 @@ package fr.utt.thomas.blablapark;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +13,8 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 
 import com.google.android.gms.maps.SupportMapFragment;
+
+import java.io.IOException;
 
 
 /**
@@ -32,6 +36,10 @@ public class Home extends Fragment {
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
+
+    private Localisation localisation;
+    private String latitude;
+    private String longitude;
 
     public static Home newInstance() {
         Home fragment = new Home();
@@ -58,6 +66,38 @@ public class Home extends Fragment {
                 getActivity().startActivity(intentMap);
             }
         });
+
+        ((ImageButton) rootView.findViewById(R.id.imageButton2)).setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                localisation = new Localisation();
+
+                //cherche sa position gps
+                localisation.findLocalization(getActivity());
+
+                //attend un peu sinon a pas encore trouvé location
+                Runnable r = new Runnable() {
+                    @Override
+                    public void run(){
+                        latitude = localisation.getLatitude();
+                        longitude = localisation.getLongitude();
+                        try {
+                            localisation.setLatitude(latitude);
+                            localisation.setLongitude(longitude);
+                            localisation.sauvegarder(getActivity());
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                };
+
+                Handler h = new Handler();
+                h.postDelayed(r, 5000); // <-- the "1000" is the delay time in miliseconds.
+            }
+        });
+
         return rootView;
     }
 

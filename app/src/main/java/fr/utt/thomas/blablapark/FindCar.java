@@ -1,6 +1,7 @@
 package fr.utt.thomas.blablapark;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -42,6 +43,10 @@ public class FindCar extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_find_car, container,
                 false);
+
+            Intent intentMap = new Intent(getActivity(), MapFindCar.class);
+            getActivity().startActivity(intentMap);
+
         return rootView;
     }
 

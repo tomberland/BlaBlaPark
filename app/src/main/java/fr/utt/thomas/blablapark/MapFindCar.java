@@ -1,18 +1,28 @@
 package fr.utt.thomas.blablapark;
 
+import android.location.Criteria;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.SystemClock;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 
-public class Map extends FragmentActivity{
+import java.io.IOException;
 
+public class MapFindCar extends FragmentActivity {
+
+    private LocationManager locMgr;
+    Location location;
     private double longitude ;
     private double latitude;
     private GoogleMap gMap;
@@ -21,8 +31,9 @@ public class Map extends FragmentActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_map);
+        setContentView(R.layout.activity_map_find_car);
 
+        locMgr = (LocationManager) getSystemService(LOCATION_SERVICE);
         SupportMapFragment mapFrag = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
 
@@ -31,7 +42,29 @@ public class Map extends FragmentActivity{
         gMap.setMyLocationEnabled(true);
         gMap.getUiSettings().setCompassEnabled(true);
 
+        //récupère les anciennes coordonnées et les affiche
         localisation = new Localisation();
+
+        try {
+            localisation.recupererCoordonnees(this);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        latitude = Double.parseDouble(localisation.getLatitude());
+        longitude = Double.parseDouble(localisation.getLongitude());
+
+        LatLng oldPosition = new LatLng(latitude, longitude);
+
+//        Marker hamburg = gMap.addMarker(new MarkerOptions().position(currentPosition).title("Hamburg"));
+
+        Marker voiture = gMap.addMarker(new MarkerOptions()
+                .position(oldPosition)
+                .title("Ma voiture")
+                .snippet("est ici")
+                .icon(BitmapDescriptorFactory.fromResource(android.R.drawable.ic_menu_mylocation)));
+        //                .icon(BitmapDescriptorFactory
+        //                        .fromResource(R.drawable.ic_launcher)));
 
         //cherche sa position gps
         localisation.findLocalization(this);
@@ -45,14 +78,13 @@ public class Map extends FragmentActivity{
         };
 
         Handler h = new Handler();
-        h.postDelayed(r, 5000); // <-- the "1000" is the delay time in miliseconds.
+        h.postDelayed(r, 4000); // <-- the "1000" is the delay time in miliseconds.
     }
 
     public void zoom() {
 
         latitude = Double.parseDouble(localisation.getLatitude());
         longitude = Double.parseDouble(localisation.getLongitude());
-        Log.i("coucou", "location: " + latitude + " " + longitude);
 
         LatLng currentPosition = new LatLng(latitude, longitude);
 
