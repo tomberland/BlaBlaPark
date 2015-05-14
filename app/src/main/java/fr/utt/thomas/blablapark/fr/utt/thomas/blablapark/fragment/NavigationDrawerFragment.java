@@ -1,4 +1,4 @@
-package fr.utt.thomas.blablapark;
+package fr.utt.thomas.blablapark.fr.utt.thomas.blablapark.fragment;
 
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v7.app.ActionBarActivity;
@@ -21,6 +21,8 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
+
+import fr.utt.thomas.blablapark.R;
 
 /**
  * Fragment used for managing interactions for and presentation of a navigation drawer.

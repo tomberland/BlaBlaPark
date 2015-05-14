@@ -29,6 +29,11 @@ public class GpsVerificator {
             AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
             builder.setTitle("Location Services Not Active");
             builder.setMessage("Please enable Location Services and GPS");
+            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
             builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialogInterface, int i) {
                     // Show location settings when the user acknowledges the alert dialog

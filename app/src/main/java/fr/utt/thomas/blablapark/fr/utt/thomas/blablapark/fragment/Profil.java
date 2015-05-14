@@ -1,4 +1,4 @@
-package fr.utt.thomas.blablapark;
+package fr.utt.thomas.blablapark.fr.utt.thomas.blablapark.fragment;
 
 import android.app.Activity;
 import android.net.Uri;
@@ -8,16 +8,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import fr.utt.thomas.blablapark.fr.utt.thomas.blablapark.activity.MainActivity;
+import fr.utt.thomas.blablapark.R;
+
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link Parking.OnFragmentInteractionListener} interface
+ * {@link Profil.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link Parking#newInstance} factory method to
+ * Use the {@link Profil#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class Parking extends Fragment {
+public class Profil extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -29,18 +32,18 @@ public class Parking extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    public static Parking newInstance() {
-        Parking fragment = new Parking();
+    public static Profil newInstance() {
+        Profil fragment = new Profil();
         return fragment;
     }
 
-    public Parking() {
+    public Profil() {
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_parking, container,
+        View rootView = inflater.inflate(R.layout.fragment_profil, container,
                 false);
         return rootView;
     }
@@ -55,8 +58,9 @@ public class Parking extends Fragment {
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        ((MainActivity) activity).onSectionAttached(3);
+        ((MainActivity) activity).onSectionAttached(2);
     }
+
     @Override
     public void onDetach() {
         super.onDetach();

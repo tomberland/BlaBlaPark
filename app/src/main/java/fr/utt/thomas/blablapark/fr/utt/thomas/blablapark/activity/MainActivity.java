@@ -1,27 +1,25 @@
-package fr.utt.thomas.blablapark;
+package fr.utt.thomas.blablapark.fr.utt.thomas.blablapark.activity;
 
-import android.app.Activity;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.ActionBar;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 
-import android.content.Context;
-import android.os.Build;
+
+import android.support.v7.app.ActionBar;
+import android.support.v4.app.FragmentManager;
 import android.os.Bundle;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.support.v4.widget.DrawerLayout;
-import android.widget.ArrayAdapter;
-import android.widget.TextView;
+
+import fr.utt.thomas.blablapark.R;
+import fr.utt.thomas.blablapark.fr.utt.thomas.blablapark.fragment.FindCar;
+import fr.utt.thomas.blablapark.fr.utt.thomas.blablapark.fragment.Home;
+import fr.utt.thomas.blablapark.fr.utt.thomas.blablapark.fragment.NavigationDrawerFragment;
+import fr.utt.thomas.blablapark.fr.utt.thomas.blablapark.fragment.Parking;
+import fr.utt.thomas.blablapark.fr.utt.thomas.blablapark.fragment.Profil;
+import fr.utt.thomas.blablapark.fr.utt.thomas.blablapark.verificator.GpsVerificator;
 
 
-public class MainActivity extends ActionBarActivity
-        implements NavigationDrawerFragment.NavigationDrawerCallbacks {
+public class MainActivity extends ActionBarActivity implements NavigationDrawerFragment.NavigationDrawerCallbacks {
 
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
@@ -46,6 +44,11 @@ public class MainActivity extends ActionBarActivity
         mNavigationDrawerFragment.setUp(
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
+
+        GpsVerificator gpsVerificator = new GpsVerificator(this);
+        gpsVerificator.getGpsLocalizationResult();
+
+
     }
 
     @Override

@@ -1,13 +1,10 @@
-package fr.utt.thomas.blablapark;
+package fr.utt.thomas.blablapark.fr.utt.thomas.blablapark.map;
 
-import android.location.Criteria;
 import android.location.Location;
-import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.FragmentActivity;
-import android.util.Log;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -18,6 +15,9 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.io.IOException;
+
+import fr.utt.thomas.blablapark.fr.utt.thomas.blablapark.fragment.Localisation;
+import fr.utt.thomas.blablapark.R;
 
 public class MapFindCar extends FragmentActivity {
 

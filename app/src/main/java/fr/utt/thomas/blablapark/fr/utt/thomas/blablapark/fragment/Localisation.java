@@ -1,4 +1,4 @@
-package fr.utt.thomas.blablapark;
+package fr.utt.thomas.blablapark.fr.utt.thomas.blablapark.fragment;
 
 /**
  * Created by Thomas on 12/05/2015.

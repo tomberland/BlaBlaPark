@@ -1,7 +1,6 @@
-package fr.utt.thomas.blablapark;
+package fr.utt.thomas.blablapark.fr.utt.thomas.blablapark.fragment;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -9,16 +8,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import fr.utt.thomas.blablapark.fr.utt.thomas.blablapark.activity.MainActivity;
+import fr.utt.thomas.blablapark.R;
+
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link FindCar.OnFragmentInteractionListener} interface
+ * {@link Parking.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link FindCar#newInstance} factory method to
+ * Use the {@link Parking#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class FindCar extends Fragment {
+public class Parking extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -30,23 +32,19 @@ public class FindCar extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    public static FindCar newInstance() {
-        FindCar fragment = new FindCar();
+    public static Parking newInstance() {
+        Parking fragment = new Parking();
         return fragment;
     }
 
-    public FindCar() {
+    public Parking() {
     }
 
-    @Override
+
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_find_car, container,
+        View rootView = inflater.inflate(R.layout.fragment_parking, container,
                 false);
-
-            Intent intentMap = new Intent(getActivity(), MapFindCar.class);
-            getActivity().startActivity(intentMap);
-
         return rootView;
     }
 
@@ -57,12 +55,11 @@ public class FindCar extends Fragment {
         }
     }
 
-    @Override
+
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        ((MainActivity) activity).onSectionAttached(4);
+        ((MainActivity) activity).onSectionAttached(3);
     }
-
     @Override
     public void onDetach() {
         super.onDetach();

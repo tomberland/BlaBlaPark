@@ -1,8 +1,7 @@
-package fr.utt.thomas.blablapark;
+package fr.utt.thomas.blablapark.fr.utt.thomas.blablapark.fragment;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -15,6 +14,10 @@ import android.widget.ImageButton;
 import com.google.android.gms.maps.SupportMapFragment;
 
 import java.io.IOException;
+
+import fr.utt.thomas.blablapark.fr.utt.thomas.blablapark.activity.MainActivity;
+import fr.utt.thomas.blablapark.R;
+import fr.utt.thomas.blablapark.fr.utt.thomas.blablapark.map.Map;
 
 
 /**

@@ -1,6 +1,7 @@
-package fr.utt.thomas.blablapark;
+package fr.utt.thomas.blablapark.fr.utt.thomas.blablapark.fragment;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -8,16 +9,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import fr.utt.thomas.blablapark.fr.utt.thomas.blablapark.activity.MainActivity;
+import fr.utt.thomas.blablapark.R;
+import fr.utt.thomas.blablapark.fr.utt.thomas.blablapark.map.MapFindCar;
+
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link Profil.OnFragmentInteractionListener} interface
+ * {@link FindCar.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link Profil#newInstance} factory method to
+ * Use the {@link FindCar#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class Profil extends Fragment {
+public class FindCar extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -29,19 +34,23 @@ public class Profil extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    public static Profil newInstance() {
-        Profil fragment = new Profil();
+    public static FindCar newInstance() {
+        FindCar fragment = new FindCar();
         return fragment;
     }
 
-    public Profil() {
+    public FindCar() {
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_profil, container,
+        View rootView = inflater.inflate(R.layout.fragment_find_car, container,
                 false);
+
+            Intent intentMap = new Intent(getActivity(), MapFindCar.class);
+            getActivity().startActivity(intentMap);
+
         return rootView;
     }
 
@@ -55,7 +64,7 @@ public class Profil extends Fragment {
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        ((MainActivity) activity).onSectionAttached(2);
+        ((MainActivity) activity).onSectionAttached(4);
     }
 
     @Override

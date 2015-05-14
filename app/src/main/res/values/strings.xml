@@ -13,5 +13,9 @@
     <string name="title_activity_map">Map</string>
 
     <string name="mapKey">AIzaSyAq4TVGjsGBlQgkjLdNtX3zZXCgi8jIS7Y</string>
+    <string name="title_activity_connexion">ConnexionActivity</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="title_activity_inscription">InscriptionActivity</string>
 
 </resources>

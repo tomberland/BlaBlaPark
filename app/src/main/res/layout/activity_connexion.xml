@@ -1,0 +1,72 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#4682B4"
+    tools:context="fr.utt.thomas.blablapark.fr.utt.thomas.blablapark.activity.ConnexionActivity">
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textEmailAddress"
+        android:ems="10"
+        android:id="@+id/textEmail"
+        android:background="#FFFFFF"
+        android:layout_above="@+id/texPassword"
+        android:layout_alignStart="@+id/texPassword"
+        android:layout_marginBottom="97dp" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPassword"
+        android:ems="10"
+        android:id="@+id/texPassword"
+        android:background="#FFFFFF"
+        android:layout_above="@+id/buttonConnexion"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="91dp" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Connexion"
+        android:onClick="connexionClick"
+        android:id="@+id/buttonConnexion"
+        android:layout_above="@+id/textView4"
+        android:layout_alignStart="@+id/buttonInscription" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Vous n'êtes pas inscrit?"
+        android:id="@+id/textView4"
+        android:textColor="#FFFFFF"
+        android:textStyle="italic"
+        android:layout_above="@+id/buttonInscription"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="20dp" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Inscription"
+        android:id="@+id/buttonInscription"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/editText"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="43dp"
+        android:text="BlaBlaPark"
+        android:textColor="#FFFFFF"
+        android:textStyle="italic"
+        android:textSize="50dp"
+        android:height="80dp" />
+
+</RelativeLayout>

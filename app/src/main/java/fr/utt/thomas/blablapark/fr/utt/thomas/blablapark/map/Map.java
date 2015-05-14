@@ -1,8 +1,7 @@
-package fr.utt.thomas.blablapark;
+package fr.utt.thomas.blablapark.fr.utt.thomas.blablapark.map;
 
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.SystemClock;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 
@@ -10,6 +9,9 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+
+import fr.utt.thomas.blablapark.fr.utt.thomas.blablapark.fragment.Localisation;
+import fr.utt.thomas.blablapark.R;
 
 public class Map extends FragmentActivity{
 
