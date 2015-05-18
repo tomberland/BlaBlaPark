@@ -2,6 +2,8 @@ package fr.utt.thomas.blablapark.fr.utt.thomas.blablapark.activity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -9,6 +11,9 @@ import android.view.View;
 import android.widget.TextView;
 
 import fr.utt.thomas.blablapark.R;
+import fr.utt.thomas.blablapark.fr.utt.thomas.blablapark.localDataBase.DbHelper;
+import fr.utt.thomas.blablapark.fr.utt.thomas.blablapark.localDataBase.MessageDB;
+import fr.utt.thomas.blablapark.fr.utt.thomas.blablapark.localDataBase.MyDatabaseAdapter;
 import fr.utt.thomas.blablapark.fr.utt.thomas.blablapark.map.MapFindCar;
 import fr.utt.thomas.blablapark.fr.utt.thomas.blablapark.verificator.TextFieldVerificator;
 
@@ -18,12 +23,16 @@ public class ConnexionActivity extends Activity {
     TextView email;
     TextView password;
     TextFieldVerificator textFieldVerificator;
+    MyDatabaseAdapter dbAdaptater;
 
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_connexion);
         textFieldVerificator = new TextFieldVerificator(this,email,password);
+        dbAdaptater = new MyDatabaseAdapter(this);
+
+
 
     }
 
@@ -37,11 +46,32 @@ public class ConnexionActivity extends Activity {
         textFieldVerificator.setEmailVerif(email);
         textFieldVerificator.setPassVerif(password);
         textFieldVerificator.afficheResult();
+
         if (textFieldVerificator.result) {
+
+            /*Local database
+           dbAdaptater = new MyDatabaseAdapter(this);
+           long id = dbAdaptater.insertData(email.getText().toString(), password.getText().toString());
+          //  String data = dbAdaptater.viewData();
+          //  MessageDB.message(this,data);
+           if (id<0)
+            {
+                MessageDB.message(this,"unsucesful insert");
+            }else
+            {
+                MessageDB.message(this,"successful insert");
+                Intent intent = new Intent(this, MainActivity.class);
+                this.startActivity(intent);
+            }*/
             Intent intent = new Intent(this, MainActivity.class);
             this.startActivity(intent);
-
         }
+    }
+
+    public void inscriptionClick(View view)
+    {
+        Intent intent = new Intent(this, InscriptionActivity.class);
+        this.startActivity(intent);
     }
 
 
@@ -64,4 +94,9 @@ public class ConnexionActivity extends Activity {
 
         return super.onOptionsItemSelected(item);
     }
+
+
+
+
+
 }
