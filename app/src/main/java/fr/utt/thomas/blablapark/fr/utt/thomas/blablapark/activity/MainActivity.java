@@ -1,5 +1,7 @@
 package fr.utt.thomas.blablapark.fr.utt.thomas.blablapark.activity;
 
+import android.location.Location;
+import android.location.LocationManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 
@@ -10,9 +12,13 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.SupportMapFragment;
+
 import fr.utt.thomas.blablapark.R;
 import fr.utt.thomas.blablapark.fr.utt.thomas.blablapark.fragment.FindCar;
 import fr.utt.thomas.blablapark.fr.utt.thomas.blablapark.fragment.Home;
+import fr.utt.thomas.blablapark.fr.utt.thomas.blablapark.fragment.Localisation;
 import fr.utt.thomas.blablapark.fr.utt.thomas.blablapark.fragment.NavigationDrawerFragment;
 import fr.utt.thomas.blablapark.fr.utt.thomas.blablapark.fragment.Parking;
 import fr.utt.thomas.blablapark.fr.utt.thomas.blablapark.fragment.Profil;
@@ -31,6 +37,9 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
      */
     private CharSequence mTitle;
 
+    LocationManager locMgr;
+    SupportMapFragment mapFrag;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,6 +56,10 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
 
         GpsVerificator gpsVerificator = new GpsVerificator(this);
         gpsVerificator.getGpsLocalizationResult();
+
+        locMgr = (LocationManager) getSystemService(LOCATION_SERVICE);
+        mapFrag = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.map);
 
 
     }

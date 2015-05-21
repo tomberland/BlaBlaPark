@@ -17,15 +17,6 @@
             android:id="@+id/imageView"
             android:layout_gravity="left|center_vertical" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Profile Name"
-            android:textSize="40dp"
-            android:background="#4682B4"
-            android:id="@+id/textView10" />
-
-
     </LinearLayout>
 
     <!-- android:layout_gravity="start" tells DrawerLayout to treat

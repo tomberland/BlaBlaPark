@@ -11,10 +11,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import fr.utt.thomas.blablapark.R;
-import fr.utt.thomas.blablapark.fr.utt.thomas.blablapark.localDataBase.DbHelper;
-import fr.utt.thomas.blablapark.fr.utt.thomas.blablapark.localDataBase.MessageDB;
 import fr.utt.thomas.blablapark.fr.utt.thomas.blablapark.localDataBase.MyDatabaseAdapter;
-import fr.utt.thomas.blablapark.fr.utt.thomas.blablapark.map.MapFindCar;
 import fr.utt.thomas.blablapark.fr.utt.thomas.blablapark.verificator.TextFieldVerificator;
 
 public class ConnexionActivity extends Activity {
