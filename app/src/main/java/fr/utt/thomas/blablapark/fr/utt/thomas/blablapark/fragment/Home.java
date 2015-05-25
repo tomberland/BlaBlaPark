@@ -1,6 +1,8 @@
 package fr.utt.thomas.blablapark.fr.utt.thomas.blablapark.fragment;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -21,6 +23,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.io.IOException;
 
+import fr.utt.thomas.blablapark.fr.utt.thomas.blablapark.ParkingDisplay.PlaceMapActivity;
 import fr.utt.thomas.blablapark.fr.utt.thomas.blablapark.activity.MainActivity;
 import fr.utt.thomas.blablapark.R;
 
@@ -33,6 +36,7 @@ import fr.utt.thomas.blablapark.R;
  * Use the {@link Home#newInstance} factory method to
  * create an instance of this fragment.
  */
+
 public class Home extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -52,6 +56,7 @@ public class Home extends Fragment {
     private double latitude;
     MapView mMapView;
     private GoogleMap googleMap;
+    private Context mContext;
 
     public static Home newInstance() {
         Home fragment = new Home();
@@ -59,6 +64,7 @@ public class Home extends Fragment {
     }
 
     public Home() {
+
     }
 
     @Override
@@ -105,12 +111,8 @@ public class Home extends Fragment {
             @Override
             public void onClick(View v) {
 
- //               ((MainActivity) getActivity()).onSectionAttached(3);
-//                Intent intentMap = new Intent(getActivity(), Map.class);
-//                getActivity().startActivity(intentMap);
-
+/*
                 mMapView = (MapView) rootView.findViewById(R.id.map);
-//                mMapView.onCreate(savedInstanceState);
                 mMapView.onResume();// needed to get the map to display immediately
 
                 try {
@@ -126,33 +128,9 @@ public class Home extends Fragment {
 
                 Marker parking1 = googleMap.addMarker(new MarkerOptions().position(new LatLng(48.2973451, 4.0744009000000005)).title("Parking1"));
                 Marker parking2 = googleMap.addMarker(new MarkerOptions().position(new LatLng(48.295699762561306, 4.06818151473999)).title("Parking2"));
-
-//                LatLng oldPosition = new LatLng(48.2973451, 4.0744009000000005);
-//                Marker voiture = googleMap.addMarker(new MarkerOptions()
-//                        .position(oldPosition)
-//                        .title("Ma voiture")
-//                        .snippet("est ici")
-//                        .icon(BitmapDescriptorFactory
-//                                .defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
-//                //                .fromResource(android.R.drawable.ic_menu_mylocation)));
-//                //                .icon(BitmapDescriptorFactory
-//                //                        .fromResource(R.drawable.ic_launcher)));
-
-//                localisation = new Localisation();
-//
-//                //cherche sa position gps
-//                localisation.findLocalization(getActivity());
-//
-//                //attend un peu sinon a pas encore trouvé location
-//                Runnable r = new Runnable() {
-//                    @Override
-//                    public void run(){
-//                        zoom();
-//                    }
-//                };
-//
-//                Handler h = new Handler();
-//                h.postDelayed(r, 5000); // <-- the "1000" is the delay time in miliseconds.
+*/
+                Intent intent = new Intent(getActivity(), PlaceMapActivity.class);
+                startActivity(intent);
             }
         });
 
