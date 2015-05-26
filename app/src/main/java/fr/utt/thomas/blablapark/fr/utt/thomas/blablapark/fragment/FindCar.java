@@ -73,7 +73,7 @@ public class FindCar extends Fragment {
 
         mMapView = (MapView) rootView.findViewById(R.id.map);
         mMapView.onCreate(savedInstanceState);
-  //      mMapView.onResume();// needed to get the map to display immediately
+        mMapView.onResume();// needed to get the map to display immediately
 
         try {
             MapsInitializer.initialize(getActivity().getApplicationContext());

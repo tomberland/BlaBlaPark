@@ -1,24 +1,18 @@
 package fr.utt.thomas.blablapark.fr.utt.thomas.blablapark.activity;
 
-import android.location.Location;
 import android.location.LocationManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
-
-
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.FragmentManager;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-
-import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 
 import fr.utt.thomas.blablapark.R;
 import fr.utt.thomas.blablapark.fr.utt.thomas.blablapark.fragment.FindCar;
 import fr.utt.thomas.blablapark.fr.utt.thomas.blablapark.fragment.Home;
-import fr.utt.thomas.blablapark.fr.utt.thomas.blablapark.fragment.Localisation;
 import fr.utt.thomas.blablapark.fr.utt.thomas.blablapark.fragment.NavigationDrawerFragment;
 import fr.utt.thomas.blablapark.fr.utt.thomas.blablapark.fragment.Parking;
 import fr.utt.thomas.blablapark.fr.utt.thomas.blablapark.fragment.Profil;
@@ -37,8 +31,8 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
      */
     private CharSequence mTitle;
 
-    LocationManager locMgr;
-    SupportMapFragment mapFrag;
+//    LocationManager locMgr;
+//    SupportMapFragment mapFrag;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,9 +51,9 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
         GpsVerificator gpsVerificator = new GpsVerificator(this);
         gpsVerificator.getGpsLocalizationResult();
 
-        locMgr = (LocationManager) getSystemService(LOCATION_SERVICE);
-        mapFrag = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
+//        locMgr = (LocationManager) getSystemService(LOCATION_SERVICE);
+//        mapFrag = (SupportMapFragment) getSupportFragmentManager()
+//                .findFragmentById(R.id.map);
 
 
     }
@@ -120,7 +114,6 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
         actionBar.setTitle(mTitle);
     }
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         if (!mNavigationDrawerFragment.isDrawerOpen()) {
@@ -148,35 +141,4 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
 
         return super.onOptionsItemSelected(item);
     }
-
-//        /**
-//         * Returns a new instance of this fragment for the given section
-//         * number.
-//         */
-//        public static PlaceholderFragment newInstance(int sectionNumber) {
-//            PlaceholderFragment fragment = new PlaceholderFragment();
-//            Bundle args = new Bundle();
-//            args.putInt(ARG_SECTION_NUMBER, sectionNumber);
-//            fragment.setArguments(args);
-//            return fragment;
-//        }
-//
-//        public PlaceholderFragment() {
-//        }
-//
-//        @Override
-//        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-//                                 Bundle savedInstanceState) {
-//            View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-//            return rootView;
-//        }
-//
-//        @Override
-//        public void onAttach(Activity activity) {
-//            super.onAttach(activity);
-//            ((MainActivity) activity).onSectionAttached(
-//                    getArguments().getInt(ARG_SECTION_NUMBER));
-//        }
-//    }
-
 }

@@ -5,15 +5,19 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.SeekBar;
+import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -59,6 +63,10 @@ public class Home extends Fragment {
     MapView mMapView;
     private GoogleMap googleMap;
     private Context mContext;
+    private SharedPreferences sharedPreferences;
+    private SeekBar seekBar;
+    private TextView textView;
+    int radius;
 
     public static Home newInstance() {
         Home fragment = new Home();
@@ -107,13 +115,12 @@ public class Home extends Fragment {
         h.postDelayed(r, 5000); // <-- the "1000" is the delay time in miliseconds.
 
         //Bouton central
-        //pas encore fait, afficher les vrais parkings
         ((ImageButton) rootView.findViewById(R.id.searchButton)).setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
 
-/*
+
                 mMapView = (MapView) rootView.findViewById(R.id.map);
                 mMapView.onResume();// needed to get the map to display immediately
 
@@ -130,11 +137,13 @@ public class Home extends Fragment {
 
                 Marker parking1 = googleMap.addMarker(new MarkerOptions().position(new LatLng(48.2973451, 4.0744009000000005)).title("Parking1"));
                 Marker parking2 = googleMap.addMarker(new MarkerOptions().position(new LatLng(48.295699762561306, 4.06818151473999)).title("Parking2"));
-*/
-                Intent intent = new Intent(getActivity(), PlaceMapActivity.class);
-                startActivity(intent);
+
+//                Intent intent = new Intent(getActivity(), PlaceMapActivity.class);
+//                startActivity(intent);
             }
         });
+
+
 
         ((ImageButton) rootView.findViewById(R.id.indicate)).setOnClickListener(new View.OnClickListener() {
 
@@ -164,6 +173,8 @@ public class Home extends Fragment {
                         latitude = Double.parseDouble(localisation.getLatitude());
                         longitude = Double.parseDouble(localisation.getLongitude());
                         try {
+//                            localisation.setLatitude(latitude);
+//                            localisation.setLongitude(longitude);
                             localisation.setLatitude(Double.toString(latitude));
                             localisation.setLongitude(Double.toString(longitude));
                             localisation.sauvegarder(getActivity());
@@ -178,6 +189,47 @@ public class Home extends Fragment {
             }
         });
 
+
+
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        radius = Integer.valueOf(sharedPreferences.getString("Perimetre", "50"));
+
+        seekBar = (SeekBar) rootView.findViewById(R.id.seekBar);
+        seekBar.setProgress(radius);
+        textView = (TextView) rootView.findViewById(R.id.textView1);
+        textView.setText(radius + " m");
+
+
+
+        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            int progress = radius;
+
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progresValue, boolean fromUser) {
+
+                progress = progresValue;
+                Log.i("coucou", "progress : " + progress);
+                textView.setText(progress * 100 + " m");
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+                sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                String tmp = String.valueOf(progress * 100);
+                Log.i("coucou", "progress : " + progress * 100 + " tmp : " + tmp);
+                editor.putString("Perimetre", tmp); // value to store
+                editor.commit();
+
+
+            }
+        });
         return rootView;
     }
 

@@ -117,7 +117,7 @@ public class Localisation implements LocationListener {
         } else {
 //          Log.i("coucou", "location null"+", provider :"+provider);
 //          locMgr.requestLocationUpdates(provider, 60000, 0, this);
-            locMgr.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
+            locMgr.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 60000, 0, this);
         }
     }
 

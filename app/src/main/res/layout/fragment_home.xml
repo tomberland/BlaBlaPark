@@ -9,15 +9,6 @@
         android:layout_width="match_parent"
         android:layout_height="556dp" />
 
-
-    <ImageButton
-        android:layout_width="60dp"
-        android:layout_height="67dp"
-        android:id="@+id/imageButton2"
-        android:layout_gravity="left|top"
-        android:background="@android:color/transparent"
-        android:src="@drawable/position_car" />
-
     <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="100dp"
@@ -30,6 +21,16 @@
         android:layout_toEndOf="@+id/indicate" />
 
     <ImageButton
+        android:layout_width="60dp"
+        android:layout_height="67dp"
+        android:id="@+id/imageButton2"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_gravity="left|top"
+        android:background="@android:color/transparent"
+        android:src="@drawable/position_car" />
+
+    <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="100dp"
         android:id="@+id/indicate"
@@ -39,5 +40,22 @@
         android:layout_alignBottom="@+id/map"
         android:layout_toEndOf="@+id/imageButton2"
         android:layout_marginStart="42dp" />
+
+    <TextView
+    android:id="@+id/textView1"
+    android:layout_width="wrap_content"
+        android:layout_marginTop="5dp"
+    android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"/>
+
+    <SeekBar
+        android:layout_width="190dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/seekBar"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/textView1"
+        android:thumb="@drawable/thumb_image"
+        android:max="50"
+        android:longClickable="false" />
 
 </RelativeLayout>

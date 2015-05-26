@@ -1,7 +1,9 @@
 package fr.utt.thomas.blablapark.fr.utt.thomas.blablapark.ParkingDisplay;
 
 import android.app.ProgressDialog;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -9,6 +11,7 @@ import android.text.Html;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -36,15 +39,13 @@ public class PlaceMapActivity extends FragmentActivity {
     Boolean isInternetPresent = false;
     InternetVerificator cd;
     LatLng currentPosition;
-
-
+    SharedPreferences sharedPreferences;
+    double radius;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_place_map);
-
-
 
         cd = new InternetVerificator(getApplicationContext());
 
@@ -85,7 +86,7 @@ public class PlaceMapActivity extends FragmentActivity {
         new LoadPlaces().execute();
 
         currentPosition = new LatLng(gps.getLatitude(), gps.getLongitude());
-
+        Log.i("coucou", "Location : "+gps.getLatitude()+" "+ gps.getLongitude());
 //        Runnable r = new Runnable() {
 
         //     public void run(){
@@ -158,8 +159,17 @@ public class PlaceMapActivity extends FragmentActivity {
                 // Check list of types supported by google
                 //
                 String types = "parking"; // Listing places only cafes, restaurants
+
+
+
                 // Radius in meters - increase this value if you don't find any places
-                double radius = 2000; // 1000 meters
+//                double radius = 2000; // 1000 meters
+
+                sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                radius = Double.valueOf(sharedPreferences.getString("Perimetre", "5"));
+                Log.i("coucou", "radius : "+radius);
+
+
 
                 // get nearest places
                 nearPlaces = googlePlaces.search(gps.getLatitude(),
