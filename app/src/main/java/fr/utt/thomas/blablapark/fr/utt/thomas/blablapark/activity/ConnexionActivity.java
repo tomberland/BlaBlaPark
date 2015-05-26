@@ -44,7 +44,7 @@ public class ConnexionActivity extends Activity {
         textFieldVerificator.setPassVerif(password);
         textFieldVerificator.afficheResult();
 
-        if (textFieldVerificator.result) {
+  //      if (textFieldVerificator.result) {
 
             /*Local database
            dbAdaptater = new MyDatabaseAdapter(this);
@@ -62,7 +62,7 @@ public class ConnexionActivity extends Activity {
             }*/
             Intent intent = new Intent(this, MainActivity.class);
             this.startActivity(intent);
-        }
+ //       }
     }
 
     public void inscriptionClick(View view)

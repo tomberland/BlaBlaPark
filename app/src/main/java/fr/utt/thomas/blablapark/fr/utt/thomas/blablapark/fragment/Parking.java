@@ -1,12 +1,16 @@
 package fr.utt.thomas.blablapark.fr.utt.thomas.blablapark.fragment;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
+import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -19,8 +23,13 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import fr.utt.thomas.blablapark.fr.utt.thomas.blablapark.ParkingDisplay.GooglePlaces;
+import fr.utt.thomas.blablapark.fr.utt.thomas.blablapark.ParkingDisplay.Place;
+import fr.utt.thomas.blablapark.fr.utt.thomas.blablapark.ParkingDisplay.PlaceMapActivity;
+import fr.utt.thomas.blablapark.fr.utt.thomas.blablapark.ParkingDisplay.PlacesList;
 import fr.utt.thomas.blablapark.fr.utt.thomas.blablapark.activity.MainActivity;
 import fr.utt.thomas.blablapark.R;
+import fr.utt.thomas.blablapark.fr.utt.thomas.blablapark.localDataBase.MessageDB;
 
 
 /**
@@ -42,12 +51,15 @@ public class Parking extends Fragment {
     private String mParam2;
 
     private Localisation localisation;
-//    private String latitude;
-//    private String longitude;
-    private double longitude ;
-    private double latitude;
+    double longitude;
+    double latitude;
     MapView mMapView;
-    private GoogleMap googleMap;
+    GoogleMap googleMap;
+    ProgressDialog pDialog;
+    GooglePlaces googlePlaces;
+    PlacesList nearPlaces;
+    LatLng latLng;
+
 
     private OnFragmentInteractionListener mListener;
 
@@ -89,40 +101,29 @@ public class Parking extends Fragment {
                 .icon(BitmapDescriptorFactory
                         .defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
 
-//                LatLng oldPosition = new LatLng(48.2973451, 4.0744009000000005);
-//                Marker voiture = googleMap.addMarker(new MarkerOptions()
-//                        .position(oldPosition)
-//                        .title("Ma voiture")
-//                        .snippet("est ici")
-//                        .icon(BitmapDescriptorFactory
-//                                .defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
-//                //                .fromResource(android.R.drawable.ic_menu_mylocation)));
-//                //                .icon(BitmapDescriptorFactory
-//                //                        .fromResource(R.drawable.ic_launcher)));
+        localisation = new Localisation();
 
-                localisation = new Localisation();
+        //cherche sa position gps
+        localisation.findLocalization(getActivity());
+        latitude = Double.parseDouble(localisation.getLatitude());
+        longitude = Double.parseDouble(localisation.getLongitude());
+        new LoadPlaces().execute();
 
-                //cherche sa position gps
-                localisation.findLocalization(getActivity());
+        Runnable r = new Runnable() {
+            @Override
+            public void run() {
+                zoom();
+            }
+        };
 
-                //attend un peu sinon a pas encore trouvé location
-                Runnable r = new Runnable() {
-                    @Override
-                    public void run(){
-                        zoom();
-                    }
-                };
-
-                Handler h = new Handler();
-                h.postDelayed(r, 5000); // <-- the "1000" is the delay time in miliseconds.
+        Handler h = new Handler();
+        h.postDelayed(r, 5000); // <-- the "1000" is the delay time in miliseconds.
 
         return rootView;
     }
 
     public void zoom() {
 
-        latitude = Double.parseDouble(localisation.getLatitude());
-        longitude = Double.parseDouble(localisation.getLongitude());
         Log.i("coucou", "location: " + latitude + " " + longitude);
 
         LatLng currentPosition = new LatLng(latitude, longitude);
@@ -146,25 +147,111 @@ public class Parking extends Fragment {
         super.onAttach(activity);
         ((MainActivity) activity).onSectionAttached(3);
     }
+
     @Override
     public void onDetach() {
         super.onDetach();
         mListener = null;
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p/>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         public void onFragmentInteraction(Uri uri);
     }
 
-}
+
+    class LoadPlaces extends AsyncTask<String, String, String> {
+
+        /**
+         * Before starting background thread Show Progress Dialog
+         */
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            pDialog = new ProgressDialog(getActivity());
+            pDialog.setMessage(Html.fromHtml("<b>Search</b><br/>Loading Places..."));
+            pDialog.setIndeterminate(false);
+            pDialog.setCancelable(false);
+            pDialog.show();
+        }
+
+        /**
+         * getting Places JSON
+         */
+        protected String doInBackground(String... args) {
+            // creating Places class object
+            googlePlaces = new GooglePlaces();
+
+            try {
+
+                String types = "parking"; // Listing places only cafes, restaurants
+                // Radius in meters - increase this value if you don't find any places
+                double radius = 2000; // 1000 meters
+
+                // get nearest places
+                nearPlaces = googlePlaces.search(latitude,
+                        longitude, radius, types);
+
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        /**
+         * After completing background task Dismiss the progress dialog
+         * and show the data in UI
+         * Always use runOnUiThread(new Runnable()) to update UI from background
+         * thread, otherwise you will get error
+         * *
+         */
+        protected void onPostExecute(String file_url) {
+            // dismiss the dialog after getting all products
+            pDialog.dismiss();
+
+            // Get json response status
+            String status = nearPlaces.status;
+
+            // Check for all possible status
+            if (status.equals("OK")) {
+                // Successfully got places details
+                if (nearPlaces.results != null) {
+                    // loop through each place
+                    for (Place p : nearPlaces.results) {
+                        Double lat = p.geometry.location.lat;
+                        Double lng = p.geometry.location.lng;
+                        LatLng latLng = new LatLng(lat, lng);
+
+                        Marker pos = googleMap.addMarker(new MarkerOptions()
+                                .position(latLng)
+                                .title(p.name)
+                                .snippet(p.vicinity)
+                                .icon(BitmapDescriptorFactory
+                                        .defaultMarker(BitmapDescriptorFactory.HUE_RED)));
+                    }
+                }
+            } else if (status.equals("ZERO_RESULTS")) {
+                // Zero results found
+                MessageDB.message(getActivity(), "Sorry no places found. Try to change the types of places");
+            } else if (status.equals("UNKNOWN_ERROR")) {
+                MessageDB.message(getActivity(), "Sorry unknown error occured.");
+            } else if (status.equals("OVER_QUERY_LIMIT")) {
+                MessageDB.message(getActivity(), "Sorry query limit to google places is reached");
+            } else if (status.equals("REQUEST_DENIED")) {
+                MessageDB.message(getActivity(), "Sorry error occured. Request is denied");
+            } else if (status.equals("INVALID_REQUEST")) {
+                MessageDB.message(getActivity(), "Sorry error occured. Invalid Request");
+            } else {
+                MessageDB.message(getActivity(), "Sorry error occured.");
+            }
+        }
+
+        }
+
+    }
+
+
+
+
+

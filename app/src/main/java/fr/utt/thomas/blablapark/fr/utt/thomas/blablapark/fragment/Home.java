@@ -1,7 +1,9 @@
 package fr.utt.thomas.blablapark.fr.utt.thomas.blablapark.fragment;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -106,7 +108,7 @@ public class Home extends Fragment {
 
         //Bouton central
         //pas encore fait, afficher les vrais parkings
-        ((ImageButton) rootView.findViewById(R.id.imageButton)).setOnClickListener(new View.OnClickListener() {
+        ((ImageButton) rootView.findViewById(R.id.searchButton)).setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
@@ -134,6 +136,14 @@ public class Home extends Fragment {
             }
         });
 
+        ((ImageButton) rootView.findViewById(R.id.indicate)).setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                alertCommunityPopUp();
+            }
+        });
+
         //Bouton pour enregistrer la position de sa voiture
         ((ImageButton) rootView.findViewById(R.id.imageButton2)).setOnClickListener(new View.OnClickListener() {
 
@@ -154,8 +164,6 @@ public class Home extends Fragment {
                         latitude = Double.parseDouble(localisation.getLatitude());
                         longitude = Double.parseDouble(localisation.getLongitude());
                         try {
-//                            localisation.setLatitude(latitude);
-//                            localisation.setLongitude(longitude);
                             localisation.setLatitude(Double.toString(latitude));
                             localisation.setLongitude(Double.toString(longitude));
                             localisation.sauvegarder(getActivity());
@@ -221,5 +229,25 @@ public class Home extends Fragment {
         // TODO: Update argument type and name
         public void onFragmentInteraction(Uri uri);
     }
+
+
+    private void alertCommunityPopUp() {
+
+        AlertDialog.Builder helpBuilder = new AlertDialog.Builder(getActivity());
+        helpBuilder.setTitle("Alert empty place to community");
+        helpBuilder.setMessage("Thank you for alerting the empty place, you earned 5exp ");
+        helpBuilder.setPositiveButton("Ok",
+                new DialogInterface.OnClickListener() {
+
+                    public void onClick(DialogInterface dialog, int which) {
+                        // Do nothing but close the dialog
+                    }
+                });
+
+        // Remember, create doesn't show the dialog
+        AlertDialog helpDialog = helpBuilder.create();
+        helpDialog.show();
+    }
+
 
 }

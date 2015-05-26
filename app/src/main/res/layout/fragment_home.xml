@@ -1,4 +1,4 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
@@ -6,23 +6,38 @@
 
     <com.google.android.gms.maps.MapView
         android:id="@+id/map"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent" />
+        android:layout_width="match_parent"
+        android:layout_height="556dp" />
+
 
     <ImageButton
-        android:id="@+id/imageButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal|bottom"
-        android:background="@android:color/transparent"
-        android:src="@drawable/home" />
-
-    <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="60dp"
+        android:layout_height="67dp"
         android:id="@+id/imageButton2"
         android:layout_gravity="left|top"
         android:background="@android:color/transparent"
         android:src="@drawable/position_car" />
 
-</FrameLayout>
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="100dp"
+        android:id="@+id/searchButton"
+        android:layout_gravity="center_horizontal|bottom"
+        android:background="@android:color/transparent"
+        android:src="@drawable/search2"
+        android:layout_marginStart="37dp"
+        android:layout_alignBottom="@+id/map"
+        android:layout_toEndOf="@+id/indicate" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="100dp"
+        android:id="@+id/indicate"
+        android:layout_gravity="right|bottom"
+        android:background="@android:color/transparent"
+        android:src="@drawable/indicate2"
+        android:layout_alignBottom="@+id/map"
+        android:layout_toEndOf="@+id/imageButton2"
+        android:layout_marginStart="42dp" />
+
+</RelativeLayout>
