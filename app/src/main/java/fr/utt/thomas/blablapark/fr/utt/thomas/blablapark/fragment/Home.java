@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
@@ -16,8 +15,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -29,10 +30,9 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.io.IOException;
 
-import fr.utt.thomas.blablapark.fr.utt.thomas.blablapark.ParkingDisplay.PlaceMapActivity;
+import fr.utt.thomas.blablapark.fr.utt.thomas.blablapark.ParkingDisplay.GPSTracker;
 import fr.utt.thomas.blablapark.fr.utt.thomas.blablapark.activity.MainActivity;
 import fr.utt.thomas.blablapark.R;
-
 
 /**
  * A simple {@link Fragment} subclass.
@@ -67,6 +67,7 @@ public class Home extends Fragment {
     private SeekBar seekBar;
     private TextView textView;
     int radius;
+//    GPSTracker gps;
 
     public static Home newInstance() {
         Home fragment = new Home();
@@ -80,7 +81,7 @@ public class Home extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        final View rootView = inflater.inflate(R.layout.fragment_home, container, false);
+       final View rootView = inflater.inflate(R.layout.fragment_home, container, false);
 
         //affiche carte en fond (centré sur soi, sans parking)
         mMapView = (MapView) rootView.findViewById(R.id.map);
@@ -103,6 +104,19 @@ public class Home extends Fragment {
         //cherche sa position gps
         localisation.findLocalization(getActivity());
 
+//        latitude = Double.parseDouble(localisation.getLatitude());
+//        longitude = Double.parseDouble(localisation.getLongitude());
+
+//        // creating GPS Class object
+//        gps = new GPSTracker(getActivity());
+//
+//        // check if GPS location can get
+//        if (gps.canGetLocation()) {
+//            Log.d("Your Location", "latitude:" + gps.getLatitude() + ", longitude: " + gps.getLongitude());
+//        } else {
+//            Log.i("coucou", "couldnt get location");
+//        }
+
         //attend un peu sinon a pas encore trouvé location
         Runnable r = new Runnable() {
             @Override
@@ -120,7 +134,6 @@ public class Home extends Fragment {
             @Override
             public void onClick(View v) {
 
-
                 mMapView = (MapView) rootView.findViewById(R.id.map);
                 mMapView.onResume();// needed to get the map to display immediately
 
@@ -137,13 +150,13 @@ public class Home extends Fragment {
 
                 Marker parking1 = googleMap.addMarker(new MarkerOptions().position(new LatLng(48.2973451, 4.0744009000000005)).title("Parking1"));
                 Marker parking2 = googleMap.addMarker(new MarkerOptions().position(new LatLng(48.295699762561306, 4.06818151473999)).title("Parking2"));
+                Marker parking3 = googleMap.addMarker(new MarkerOptions().position(new LatLng(48.5, 4.0744009000000005)).title("Parking1"));
+                Marker parking4 = googleMap.addMarker(new MarkerOptions().position(new LatLng(48.2, 4.1)).title("Parking2"));
 
 //                Intent intent = new Intent(getActivity(), PlaceMapActivity.class);
 //                startActivity(intent);
             }
         });
-
-
 
         ((ImageButton) rootView.findViewById(R.id.indicate)).setOnClickListener(new View.OnClickListener() {
 
@@ -158,6 +171,13 @@ public class Home extends Fragment {
 
             @Override
             public void onClick(View v) {
+
+                //pas Toast basique, on agrandit le texte ici
+                Toast toast = Toast.makeText(getActivity(), "Votre position actuelle a été enregistrée. Il vous suffira d'aller dans le menu \"Trouver ma voiture\" pour la retrouver.", Toast.LENGTH_LONG);
+                LinearLayout toastLayout = (LinearLayout) toast.getView();
+                TextView toastTV = (TextView) toastLayout.getChildAt(0);
+                toastTV.setTextSize(20);
+                toast.show();
 
                 localisation = new Localisation();
 
@@ -199,8 +219,6 @@ public class Home extends Fragment {
         textView = (TextView) rootView.findViewById(R.id.textView1);
         textView.setText(radius + " m");
 
-
-
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             int progress = radius;
 
@@ -237,7 +255,11 @@ public class Home extends Fragment {
 
         latitude = Double.parseDouble(localisation.getLatitude());
         longitude = Double.parseDouble(localisation.getLongitude());
-        Log.i("coucou", "location: " + latitude + " " + longitude);
+
+//        latitude = gps.getLatitude();
+//        longitude = gps.getLongitude();
+
+        Log.i("coucou", "location dans zoom : " + latitude + " " + longitude);
 
         LatLng currentPosition = new LatLng(latitude, longitude);
 

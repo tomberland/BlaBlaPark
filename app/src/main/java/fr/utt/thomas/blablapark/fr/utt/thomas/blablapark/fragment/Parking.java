@@ -2,10 +2,13 @@ package fr.utt.thomas.blablapark.fr.utt.thomas.blablapark.fragment;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.text.Html;
 import android.util.Log;
@@ -59,6 +62,8 @@ public class Parking extends Fragment {
     GooglePlaces googlePlaces;
     PlacesList nearPlaces;
     LatLng latLng;
+    SharedPreferences sharedPreferences;
+    double radius;
 
 
     private OnFragmentInteractionListener mListener;
@@ -77,53 +82,57 @@ public class Parking extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_parking, container,
                 false);
 
-        mMapView = (MapView) rootView.findViewById(R.id.map);
-        mMapView.onCreate(savedInstanceState);
-        mMapView.onResume();// needed to get the map to display immediately
+        Intent intent = new Intent(getActivity(), PlaceMapActivity.class);
+        startActivity(intent);
 
-        try {
-            MapsInitializer.initialize(getActivity().getApplicationContext());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        googleMap = mMapView.getMap();
-        googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-        googleMap.setMyLocationEnabled(true);
-        googleMap.getUiSettings().setCompassEnabled(true);
-
-        Marker parking1 = googleMap.addMarker(new MarkerOptions().position(new LatLng(48.2973451, 4.0744009000000005))
-                .title("Parking1")
-                .icon(BitmapDescriptorFactory
-                        .defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
-        Marker parking2 = googleMap.addMarker(new MarkerOptions().position(new LatLng(48.295699762561306, 4.06818151473999))
-                .title("Parking2")
-                .icon(BitmapDescriptorFactory
-                        .defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
-
-        localisation = new Localisation();
-
-        //cherche sa position gps
-        localisation.findLocalization(getActivity());
-        latitude = Double.parseDouble(localisation.getLatitude());
-        longitude = Double.parseDouble(localisation.getLongitude());
-        new LoadPlaces().execute();
-
-        Runnable r = new Runnable() {
-            @Override
-            public void run() {
-                zoom();
-            }
-        };
-
-        Handler h = new Handler();
-        h.postDelayed(r, 5000); // <-- the "1000" is the delay time in miliseconds.
+//        mMapView = (MapView) rootView.findViewById(R.id.map);
+//        mMapView.onCreate(savedInstanceState);
+//        mMapView.onResume();// needed to get the map to display immediately
+//
+//        try {
+//            MapsInitializer.initialize(getActivity().getApplicationContext());
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//
+//        googleMap = mMapView.getMap();
+//        googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+//        googleMap.setMyLocationEnabled(true);
+//        googleMap.getUiSettings().setCompassEnabled(true);
+//
+//        Marker parking1 = googleMap.addMarker(new MarkerOptions().position(new LatLng(48.2973451, 4.0744009000000005))
+//                .title("Parking1")
+//                .icon(BitmapDescriptorFactory
+//                        .defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
+//        Marker parking2 = googleMap.addMarker(new MarkerOptions().position(new LatLng(48.295699762561306, 4.06818151473999))
+//                .title("Parking2")
+//                .icon(BitmapDescriptorFactory
+//                        .defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
+//
+//        localisation = new Localisation();
+//
+//        //cherche sa position gps
+//        localisation.findLocalization(getActivity());
+//
+//        new LoadPlaces().execute();
+//
+//        Runnable r = new Runnable() {
+//            @Override
+//            public void run() {
+//                zoom();
+//            }
+//        };
+//
+//        Handler h = new Handler();
+//        h.postDelayed(r, 5000); // <-- the "1000" is the delay time in miliseconds.
 
         return rootView;
     }
 
     public void zoom() {
 
+        latitude = Double.parseDouble(localisation.getLatitude());
+        longitude = Double.parseDouble(localisation.getLongitude());
         Log.i("coucou", "location: " + latitude + " " + longitude);
 
         LatLng currentPosition = new LatLng(latitude, longitude);
@@ -185,8 +194,13 @@ public class Parking extends Fragment {
             try {
 
                 String types = "parking"; // Listing places only cafes, restaurants
+
                 // Radius in meters - increase this value if you don't find any places
-                double radius = 2000; // 1000 meters
+ //               double radius = 5000; // 1000 meters
+
+                sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+                radius = Double.valueOf(sharedPreferences.getString("Perimetre", "5"));
+                Log.i("coucou", "radius : "+radius);
 
                 // get nearest places
                 nearPlaces = googlePlaces.search(latitude,
