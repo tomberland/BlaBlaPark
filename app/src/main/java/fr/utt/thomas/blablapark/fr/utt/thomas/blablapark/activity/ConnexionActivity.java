@@ -16,26 +16,19 @@ import fr.utt.thomas.blablapark.fr.utt.thomas.blablapark.verificator.TextFieldVe
 
 public class ConnexionActivity extends Activity {
 
-
     TextView email;
     TextView password;
     TextFieldVerificator textFieldVerificator;
     MyDatabaseAdapter dbAdaptater;
-
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_connexion);
         textFieldVerificator = new TextFieldVerificator(this,email,password);
         dbAdaptater = new MyDatabaseAdapter(this);
-
-
-
     }
 
-
     public void connexionClick(View view){
-
 
         email = (TextView) findViewById(R.id.textEmail);
         password = (TextView) findViewById(R.id.texPassword);
@@ -44,6 +37,8 @@ public class ConnexionActivity extends Activity {
         textFieldVerificator.setPassVerif(password);
         textFieldVerificator.afficheResult();
 
+
+        //à commenter si veut pas passer 3h à rentrer qqch, utile pour nous pour le moment, pour nos tests
   //      if (textFieldVerificator.result) {
 
             /*Local database
@@ -72,28 +67,23 @@ public class ConnexionActivity extends Activity {
     }
 
 
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_connexion, menu);
-        return true;
-    }
-
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-
-
-
-
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        // Inflate the menu; this adds items to the action bar if it is present.
+//        getMenuInflater().inflate(R.menu.menu_connexion, menu);
+//        return true;
+//    }
+//
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        // Handle action bar item clicks here. The action bar will
+//        // automatically handle clicks on the Home/Up button, so long
+//        // as you specify a parent activity in AndroidManifest.xml.
+//        int id = item.getItemId();
+//
+//        //noinspection SimplifiableIfStatement
+//        if (id == R.id.action_settings) {
+//            return true;
+//        }
+//
+//        return super.onOptionsItemSelected(item);
+//    }
 }

@@ -7,12 +7,14 @@ import android.support.v7.app.ActionBar;
 import android.support.v4.app.FragmentManager;
 import android.os.Bundle;
 import android.view.Menu;
-import android.view.MenuItem;
+
+import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 
 import fr.utt.thomas.blablapark.R;
 import fr.utt.thomas.blablapark.fr.utt.thomas.blablapark.fragment.FindCar;
 import fr.utt.thomas.blablapark.fr.utt.thomas.blablapark.fragment.Home;
+import fr.utt.thomas.blablapark.fr.utt.thomas.blablapark.fragment.Localisation;
 import fr.utt.thomas.blablapark.fr.utt.thomas.blablapark.fragment.NavigationDrawerFragment;
 import fr.utt.thomas.blablapark.fr.utt.thomas.blablapark.fragment.Parking;
 import fr.utt.thomas.blablapark.fr.utt.thomas.blablapark.fragment.Profil;
@@ -44,8 +46,7 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
         mTitle = getTitle();
 
         // Set up the drawer.
-        mNavigationDrawerFragment.setUp(
-                R.id.navigation_drawer,
+        mNavigationDrawerFragment.setUp(R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
 
         GpsVerificator gpsVerificator = new GpsVerificator(this);
@@ -55,7 +56,15 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
 //        mapFrag = (SupportMapFragment) getSupportFragmentManager()
 //                .findFragmentById(R.id.map);
 
-
+      //   creating GPS Class object
+//        gps = new GPSTracker(getActivity());
+//
+//        // check if GPS location can get
+//        if (gps.canGetLocation()) {
+//            Log.d("Your Location", "latitude:" + gps.getLatitude() + ", longitude: " + gps.getLongitude());
+//        } else {
+//            Log.i("coucou", "couldnt get location");
+//        }
     }
 
     @Override
@@ -120,25 +129,61 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
             // Only show items in the action bar relevant to this screen
             // if the drawer is not showing. Otherwise, let the drawer
             // decide what to show in the action bar.
-            getMenuInflater().inflate(R.menu.main, menu);
+
+ //           getMenuInflater().inflate(R.menu.main, menu);
             restoreActionBar();
             return true;
         }
         return super.onCreateOptionsMenu(menu);
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        // Handle action bar item clicks here. The action bar will
+//        // automatically handle clicks on the Home/Up button, so long
+//        // as you specify a parent activity in AndroidManifest.xml.
+//        switch (item.getItemId()) {
+//            case R.id.send_new_place :
+//
+//                //lance l'activité Préférences
+////                Intent intent1 = new Intent(getActivity(), Preference.class);
+////                startActivity(intent1);
+//
+//                //pas Toast basique, on agrandit le texte ici
+//                Toast toast = Toast.makeText(getApplicationContext(), "Coucou3", Toast.LENGTH_LONG);
+//                LinearLayout toastLayout = (LinearLayout) toast.getView();
+//                TextView toastTV = (TextView) toastLayout.getChildAt(0);
+//                toastTV.setTextSize(20);
+//                toast.show();
+//
+//                return true;
+//
+//            case R.id.save_car_position:
+//                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+//                builder.setTitle("Coucou1");
+////                builder.setTitle(getString(R.string.recapitulatif));
+//                builder.setMessage(Html.fromHtml("<font color='#33b5e5'>Coucou2 </b></font>"))
+//                        .setPositiveButton("yes", new DialogInterface.OnClickListener() {
+//                            public void onClick(DialogInterface dialog, int id) {
+//                            }
+//                        })
+//                        .setNegativeButton("no", new DialogInterface.OnClickListener() {
+//                            public void onClick(DialogInterface dialog, int id) {
+//                            }
+//                        })
+////                        .setNeutralButton(R.string.show_map, new DialogInterface.OnClickListener() {
+////                            public void onClick(DialogInterface dialog, int id) {
+////                            }
+////                        })
+//                ;
+//                // Creer l'alerte
+//                AlertDialog alertDialog = builder.create();
+//
+//                // Afficher l'alerte
+//                alertDialog.show();
+//                return true;
+//            default:
+//                return super.onOptionsItemSelected(item);
+//        }
+//    }
 }

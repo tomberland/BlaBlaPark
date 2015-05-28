@@ -90,9 +90,6 @@ public class Localisation implements LocationListener {
         return latitude + " " + longitude;
     }
 
-
-
-
 //    @Override
 //    protected void onCreate(Bundle savedInstanceState) {
 //        super.onCreate(savedInstanceState);
@@ -111,13 +108,13 @@ public class Localisation implements LocationListener {
         location = locMgr.getLastKnownLocation(provider);
 
         if (location != null) {
-//            Log.i("coucou", "Provider " + provider + " has been selected.");
+ //           Log.i("coucou", "Provider " + provider + " has been selected.");
             onLocationChanged(location);
             locMgr.removeUpdates(this);
         } else {
 //          Log.i("coucou", "location null"+", provider :"+provider);
 //          locMgr.requestLocationUpdates(provider, 60000, 0, this);
-            locMgr.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 60000, 0, this);
+            locMgr.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
         }
     }
 
@@ -126,11 +123,10 @@ public class Localisation implements LocationListener {
         latitude = String.valueOf(location2.getLatitude());
         longitude = String.valueOf(location2.getLongitude());
 
-//        localisation.setLatitude(String.valueOf(latitude));
-//        localisation.setLongitude(String.valueOf(longitude));
-
-        locMgr.removeUpdates(this);
+ //       localisation.setLatitude(String.valueOf(latitude));
+ //       localisation.setLongitude(String.valueOf(longitude));
         Log.i("coucou", "location dans onLocChanged : " + latitude + " " + longitude);
+        locMgr.removeUpdates(this);
     }
 
     @Override
@@ -144,7 +140,8 @@ public class Localisation implements LocationListener {
         locMgr.removeUpdates(this);
     }
 
- //   protected void onResume() {
+////    @Override
+//    protected void onResume() {
 //        super.onResume();
 //    }
 }

@@ -145,7 +145,6 @@ public class PlaceMapActivity extends FragmentActivity {
             pDialog.setCancelable(false);
             pDialog.show();
         }
-
         /**
          * getting Places JSON
          * */
@@ -163,7 +162,7 @@ public class PlaceMapActivity extends FragmentActivity {
 
 
                 // Radius in meters - increase this value if you don't find any places
-//                double radius = 2000; // 1000 meters
+//                double radius = 10000; // 1000 meters
 
                 sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
                 radius = Double.valueOf(sharedPreferences.getString("Perimetre", "5"));
