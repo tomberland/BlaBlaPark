@@ -13,49 +13,28 @@
         android:layout_width="wrap_content"
         android:layout_height="100dp"
         android:id="@+id/searchButton"
-        android:layout_gravity="center_horizontal|bottom"
+        android:layout_gravity="bottom"
+        android:layout_centerHorizontal="true"
         android:background="@android:color/transparent"
         android:src="@drawable/search2"
-        android:layout_marginStart="37dp"
-        android:layout_alignBottom="@+id/map"
-        android:layout_toEndOf="@+id/indicate" />
-
-    <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="100dp"
-        android:id="@+id/indicate"
-        android:layout_gravity="right|bottom"
-        android:background="@android:color/transparent"
-        android:src="@drawable/indicate2"
-        android:layout_alignBottom="@+id/map"
-        android:layout_marginStart="90dp" />
-
-    <ImageButton
-        android:layout_width="60dp"
-        android:layout_height="70dp"
-        android:id="@+id/imageButton2"
-        android:layout_marginTop="5dp"
-        android:layout_marginLeft="5dp"
-        android:layout_gravity="left|top"
-        android:background="@android:color/transparent"
-        android:src="@drawable/position_car" />
+        android:layout_alignBottom="@+id/map" />
 
     <TextView
         android:id="@+id/textView1"
         android:layout_width="wrap_content"
         android:layout_marginTop="5dp"
+        android:textSize="20dp"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"/>
 
     <SeekBar
-        android:layout_width="190dp"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:id="@+id/seekBar"
-        android:layout_centerHorizontal="true"
         android:layout_below="@+id/textView1"
         android:thumb="@drawable/thumb_image"
-        android:background="@android:color/transparent"
         android:max="50"
+        android:layout_marginLeft="10dp"
         android:longClickable="false" />
 
 </RelativeLayout>

@@ -10,7 +10,11 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="action_example">Action</string>
     <string name="action_settings">Settings</string>
-    <string name="title_activity_map">Map</string>
+    <string name="locate_empty_place">Indiquer une place libre</string>
+    <string name="save_car">Enregistrer position voiture</string>
+
+    <string name="message_position_voiture_enregistre"><b>Votre position actuelle a été enregistrée.\nIl vous suffira d\'aller dans le menu \"<i>Trouver ma voiture</i>\" pour la retrouver.</b></string>
+    <string name="message_locate_empty_place"><b>Merci d\'avoir averti la communauté de cette place disponible.\nVous gagnez 5 points d\'expérience.</b></string>
 
     <string name="mapKey">AIzaSyAq4TVGjsGBlQgkjLdNtX3zZXCgi8jIS7Y</string>
     <string name="title_activity_connexion">ConnexionActivity</string>
@@ -18,5 +22,8 @@
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_inscription">InscriptionActivity</string>
     <string name="title_activity_place_map">PlaceMapActivity</string>
+
+<!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

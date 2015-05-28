@@ -5,12 +5,15 @@ import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
+import android.os.Handler;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
 import fr.utt.thomas.blablapark.R;
+import fr.utt.thomas.blablapark.fr.utt.thomas.blablapark.ParkingDisplay.GPSTracker;
 import fr.utt.thomas.blablapark.fr.utt.thomas.blablapark.localDataBase.MyDatabaseAdapter;
 import fr.utt.thomas.blablapark.fr.utt.thomas.blablapark.verificator.TextFieldVerificator;
 

@@ -1,6 +1,5 @@
 package fr.utt.thomas.blablapark.fr.utt.thomas.blablapark.activity;
 
-import android.location.LocationManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
@@ -8,16 +7,13 @@ import android.support.v4.app.FragmentManager;
 import android.os.Bundle;
 import android.view.Menu;
 
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.SupportMapFragment;
-
 import fr.utt.thomas.blablapark.R;
 import fr.utt.thomas.blablapark.fr.utt.thomas.blablapark.fragment.FindCar;
 import fr.utt.thomas.blablapark.fr.utt.thomas.blablapark.fragment.Home;
-import fr.utt.thomas.blablapark.fr.utt.thomas.blablapark.fragment.Localisation;
+import fr.utt.thomas.blablapark.fr.utt.thomas.blablapark.fragment.LocateCommunityPlace;
 import fr.utt.thomas.blablapark.fr.utt.thomas.blablapark.fragment.NavigationDrawerFragment;
-import fr.utt.thomas.blablapark.fr.utt.thomas.blablapark.fragment.Parking;
 import fr.utt.thomas.blablapark.fr.utt.thomas.blablapark.fragment.Profil;
+import fr.utt.thomas.blablapark.fr.utt.thomas.blablapark.fragment.SaveCar;
 import fr.utt.thomas.blablapark.fr.utt.thomas.blablapark.verificator.GpsVerificator;
 
 
@@ -49,22 +45,9 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
         mNavigationDrawerFragment.setUp(R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
 
+        //Affiche un pop-up pour nous avertir que le GPS n'est pas activé sur notre téléphone et nous permet de l'activer
         GpsVerificator gpsVerificator = new GpsVerificator(this);
         gpsVerificator.getGpsLocalizationResult();
-
-//        locMgr = (LocationManager) getSystemService(LOCATION_SERVICE);
-//        mapFrag = (SupportMapFragment) getSupportFragmentManager()
-//                .findFragmentById(R.id.map);
-
-      //   creating GPS Class object
-//        gps = new GPSTracker(getActivity());
-//
-//        // check if GPS location can get
-//        if (gps.canGetLocation()) {
-//            Log.d("Your Location", "latitude:" + gps.getLatitude() + ", longitude: " + gps.getLongitude());
-//        } else {
-//            Log.i("coucou", "couldnt get location");
-//        }
     }
 
     @Override
@@ -82,18 +65,18 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
                     .commit();
         } else if (position == 2) {
             fragmentManager.beginTransaction()
-                    .replace(R.id.container, Parking.newInstance())
+                    .replace(R.id.container, SaveCar.newInstance())
                     .commit();
         } else if (position == 3) {
             fragmentManager.beginTransaction()
                     .replace(R.id.container, FindCar.newInstance())
                     .commit();
         }
-//        else if (position == 4) {
-//        fragmentManager.beginTransaction()
-//                .replace(R.id.container, Parking.newInstance())
-//                .commit();
-//    }
+        else if (position == 4) {
+        fragmentManager.beginTransaction()
+                .replace(R.id.container, LocateCommunityPlace.newInstance())
+                .commit();
+    }
     }
 
     public void onSectionAttached(int number) {
@@ -105,14 +88,14 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
                 mTitle = getString(R.string.profil);
                 break;
             case 3:
-                mTitle = getString(R.string.parking);
+                mTitle = getString(R.string.save_car);
                 break;
             case 4:
                 mTitle = getString(R.string.findCar);
                 break;
-//            case 5:
-//                mTitle = getString(R.string.parking);
-//                break;
+            case 5:
+                mTitle = getString(R.string.locate_empty_place);
+                break;
         }
     }
 

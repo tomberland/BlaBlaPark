@@ -107,8 +107,9 @@ public class NavigationDrawerFragment extends Fragment {
                 new String[]{
                         getString(R.string.home),
                         getString(R.string.profil),
-                        getString(R.string.parking),
+                        getString(R.string.save_car),
                         getString(R.string.findCar),
+                        getString(R.string.locate_empty_place),
                 }));
         mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
         return mDrawerListView;

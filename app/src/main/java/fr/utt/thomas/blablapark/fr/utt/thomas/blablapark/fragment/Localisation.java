@@ -18,7 +18,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-public class Localisation implements LocationListener {
+//public class Localisation implements LocationListener {
+
+public class Localisation {
 
     private LocationManager locMgr;
     Location location;
@@ -88,56 +90,6 @@ public class Localisation implements LocationListener {
 
     public String toString() {
         return latitude + " " + longitude;
-    }
-
-//    @Override
-//    protected void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-////        setContentView(R.layout.activity_map);
-//
-//        locMgr = (LocationManager) getSystemService(LOCATION_SERVICE);
-//
-//        initializeLocalization();
-//    }
-
-    public void findLocalization(Context context) {
-
-        locMgr = (LocationManager) context.getSystemService(context.LOCATION_SERVICE);
-        Criteria criteria = new Criteria();
-        String provider = locMgr.getBestProvider(criteria, true);
-        location = locMgr.getLastKnownLocation(provider);
-
-        if (location != null) {
- //           Log.i("coucou", "Provider " + provider + " has been selected.");
-            onLocationChanged(location);
-            locMgr.removeUpdates(this);
-        } else {
-//          Log.i("coucou", "location null"+", provider :"+provider);
-//          locMgr.requestLocationUpdates(provider, 60000, 0, this);
-            locMgr.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
-        }
-    }
-
-    public void onLocationChanged(Location location2) {
-
-        latitude = String.valueOf(location2.getLatitude());
-        longitude = String.valueOf(location2.getLongitude());
-
- //       localisation.setLatitude(String.valueOf(latitude));
- //       localisation.setLongitude(String.valueOf(longitude));
-        Log.i("coucou", "location dans onLocChanged : " + latitude + " " + longitude);
-        locMgr.removeUpdates(this);
-    }
-
-    @Override
-    public void onStatusChanged(String provider, int status, Bundle extras) {}
-
-    @Override
-    public void onProviderEnabled(String provider) {}
-
-    @Override
-    public void onProviderDisabled(String provider) {
-        locMgr.removeUpdates(this);
     }
 
 ////    @Override
