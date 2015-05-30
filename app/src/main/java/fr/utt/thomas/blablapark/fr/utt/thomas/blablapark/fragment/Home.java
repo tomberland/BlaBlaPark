@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.location.Location;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -125,26 +126,52 @@ public class Home extends Fragment {
                 googleMap.setMyLocationEnabled(true);
                 googleMap.getUiSettings().setCompassEnabled(true);
 
+                float [] dist = new float[1];
+                Location.distanceBetween(gps.getLatitude(), gps.getLongitude(),48.2973451, 4.0744009000000005,dist);
+                Log.i("Distance", "distance : " + dist[0]);
                 Marker parking1 = googleMap.addMarker(new MarkerOptions().position(new LatLng(48.2973451, 4.0744009000000005))
                         .title("Nicolas S")
-                        .snippet("le 30/05/2015")
+                        .snippet("Il y a 1 minutes")
                         .icon(BitmapDescriptorFactory
                                 .defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
+                if (dist[0]>radius){
+                    parking1.setVisible(false);
+                }else{
+                    parking1.setVisible(true);
+                }
+                Location.distanceBetween(gps.getLatitude(), gps.getLongitude(),48.295699762561306, 4.06818151473999,dist);
                 Marker parking2 = googleMap.addMarker(new MarkerOptions().position(new LatLng(48.295699762561306, 4.06818151473999))
                         .title("Ismail Y")
-                        .snippet("le 28/05/2015")
+                        .snippet("Il y a 15 minutes")
                         .icon(BitmapDescriptorFactory
                                 .defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
+                if (dist[0]>radius){
+                    parking2.setVisible(false);
+                }else{
+                    parking2.setVisible(true);
+                }
+                Location.distanceBetween(gps.getLatitude(), gps.getLongitude(),48.270447303657924, 4.065794348716736,dist);
                 Marker parking3 = googleMap.addMarker(new MarkerOptions().position(new LatLng(48.270447303657924, 4.065794348716736))
                         .title("Marc S")
-                        .snippet("le 14/05/2015")
+                        .snippet("Il y a 2 heures")
                         .icon(BitmapDescriptorFactory
                                 .defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
+                if (dist[0]>radius){
+                    parking3.setVisible(false);
+                }else{
+                    parking3.setVisible(true);
+                }
+                Location.distanceBetween(gps.getLatitude(), gps.getLongitude(),48.26921184758687, 4.064174294471741,dist);
                 Marker parking4 = googleMap.addMarker(new MarkerOptions().position(new LatLng(48.26921184758687, 4.064174294471741))
                         .title("Thomas B")
-                        .snippet("le 01/06/2015")
+                        .snippet("Il y a 5 minutes")
                         .icon(BitmapDescriptorFactory
                                 .defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
+                if (dist[0]>radius){
+                    parking4.setVisible(false);
+                }else{
+                    parking4.setVisible(true);
+                }
             }
         });
 
