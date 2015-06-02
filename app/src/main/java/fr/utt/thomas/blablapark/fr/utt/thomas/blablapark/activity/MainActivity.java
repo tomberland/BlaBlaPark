@@ -56,25 +56,25 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
         FragmentManager fragmentManager = getSupportFragmentManager();
         if (position == 0) {
             fragmentManager.beginTransaction()
-                    .replace(R.id.container, Home.newInstance())
+                    .replace(R.id.container, Home.newInstance(),"home")
                     .commit();
 
         } else if (position == 1) {
             fragmentManager.beginTransaction()
-                    .replace(R.id.container, Profil.newInstance())
+                    .replace(R.id.container, Profil.newInstance(),"profil")
                     .commit();
         } else if (position == 2) {
             fragmentManager.beginTransaction()
-                    .replace(R.id.container, SaveCar.newInstance())
+                    .replace(R.id.container, SaveCar.newInstance(),"savecar")
                     .commit();
         } else if (position == 3) {
             fragmentManager.beginTransaction()
-                    .replace(R.id.container, FindCar.newInstance())
+                    .replace(R.id.container, FindCar.newInstance(),"findcar")
                     .commit();
         }
         else if (position == 4) {
         fragmentManager.beginTransaction()
-                .replace(R.id.container, LocateCommunityPlace.newInstance())
+                .replace(R.id.container, LocateCommunityPlace.newInstance(),"locatecommunityplace")
                 .commit();
     }
     }

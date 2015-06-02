@@ -3,4 +3,6 @@
     <color name="ColorPrimary">#FF5722</color>
     <color name="ColorPrimaryDark">#E64A19</color>
     <color name="Blue">#227aff</color>
+    <color name="Silver">#C0C0C0</color>
+    <color name="Darkblue">#008B8B</color>
 </resources>
