@@ -2,7 +2,6 @@ package fr.utt.thomas.blablapark.fr.utt.thomas.blablapark.fragment;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.location.Location;
 import android.net.Uri;
@@ -51,6 +50,8 @@ public class Home extends Fragment {
     private TextView textView;
     int radius;
     GPSTracker gps;
+    float [] dist;
+    Marker parking1, parking2, parking3, parking4;
 
     // Nearest places
     PlacesList nearPlaces;
@@ -102,85 +103,12 @@ public class Home extends Fragment {
 
         zoom();
 
-//        Intent intent = new Intent(getActivity(), PlaceMapActivity.class);
-//        startActivity(intent);
-//        new LoadPlaces().execute();
-
-        //Bouton central
-        ((ImageButton) rootView.findViewById(R.id.searchButton)).setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-
-                mMapView = (MapView) rootView.findViewById(R.id.map);
-                mMapView.onResume();// needed to get the map to display immediately
-
-                try {
-                    MapsInitializer.initialize(getActivity().getApplicationContext());
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
-                googleMap = mMapView.getMap();
-                googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-                googleMap.setMyLocationEnabled(true);
-                googleMap.getUiSettings().setCompassEnabled(true);
-
-                float [] dist = new float[1];
-                Location.distanceBetween(gps.getLatitude(), gps.getLongitude(),48.2973451, 4.0744009000000005,dist);
-                Log.i("Distance", "distance : " + dist[0]);
-                Marker parking1 = googleMap.addMarker(new MarkerOptions().position(new LatLng(48.2973451, 4.0744009000000005))
-                        .title("Nicolas S")
-                        .snippet("Il y a 1 minutes")
-                        .icon(BitmapDescriptorFactory
-                                .defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
-                if (dist[0]>radius){
-                    parking1.setVisible(false);
-                }else{
-                    parking1.setVisible(true);
-                }
-                Location.distanceBetween(gps.getLatitude(), gps.getLongitude(),48.295699762561306, 4.06818151473999,dist);
-                Marker parking2 = googleMap.addMarker(new MarkerOptions().position(new LatLng(48.295699762561306, 4.06818151473999))
-                        .title("Ismail Y")
-                        .snippet("Il y a 15 minutes")
-                        .icon(BitmapDescriptorFactory
-                                .defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
-                if (dist[0]>radius){
-                    parking2.setVisible(false);
-                }else{
-                    parking2.setVisible(true);
-                }
-                Location.distanceBetween(gps.getLatitude(), gps.getLongitude(),48.270447303657924, 4.065794348716736,dist);
-                Marker parking3 = googleMap.addMarker(new MarkerOptions().position(new LatLng(48.270447303657924, 4.065794348716736))
-                        .title("Marc S")
-                        .snippet("Il y a 2 heures")
-                        .icon(BitmapDescriptorFactory
-                                .defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
-                if (dist[0]>radius){
-                    parking3.setVisible(false);
-                }else{
-                    parking3.setVisible(true);
-                }
-                Location.distanceBetween(gps.getLatitude(), gps.getLongitude(),48.26921184758687, 4.064174294471741,dist);
-                Marker parking4 = googleMap.addMarker(new MarkerOptions().position(new LatLng(48.26921184758687, 4.064174294471741))
-                        .title("Thomas B")
-                        .snippet("Il y a 5 minutes")
-                        .icon(BitmapDescriptorFactory
-                                .defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
-                if (dist[0]>radius){
-                    parking4.setVisible(false);
-                }else{
-                    parking4.setVisible(true);
-                }
-            }
-        });
-
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
         radius = Integer.valueOf(sharedPreferences.getString("Perimetre", "50"));
 
         Log.i("coucou", "radius : " + radius);
         seekBar = (SeekBar) rootView.findViewById(R.id.seekBar);
-        seekBar.setProgress(radius/100);
+        seekBar.setProgress(radius / 100);
         textView = (TextView) rootView.findViewById(R.id.textView1);
         textView.setText(radius + " m");
 
@@ -197,7 +125,6 @@ public class Home extends Fragment {
 
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
-
             }
 
             @Override
@@ -212,6 +139,71 @@ public class Home extends Fragment {
 
                 googleMap.clear();
                 new LoadPlaces().execute();
+            }
+        });
+
+        //Bouton central
+        ((ImageButton) rootView.findViewById(R.id.searchButton)).setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                //met à jour la valeur
+                sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+                radius = Integer.valueOf(sharedPreferences.getString("Perimetre", "50"));
+
+                dist = new float[1];
+                Location.distanceBetween(gps.getLatitude(), gps.getLongitude(), 48.2973451, 4.0744009000000005, dist);
+                parking1 = googleMap.addMarker(new MarkerOptions().position(new LatLng(48.2973451, 4.0744009000000005))
+                        .title("Nicolas S")
+                        .snippet("Il y a 1 minutes")
+                        .icon(BitmapDescriptorFactory
+                                .defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
+                Log.i("coucou", "dist[0] : " + dist[0]);
+                if (dist[0]>radius){
+                    parking1.setVisible(false);
+                }else{
+                    parking1.setVisible(true);
+                }
+
+                Location.distanceBetween(gps.getLatitude(), gps.getLongitude(), 48.295699762561306, 4.06818151473999, dist);
+                parking2 = googleMap.addMarker(new MarkerOptions().position(new LatLng(48.295699762561306, 4.06818151473999))
+                        .title("Ismail Y")
+                        .snippet("Il y a 15 minutes")
+                        .icon(BitmapDescriptorFactory
+                                .defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
+                Log.i("coucou", "dist[0] : " + dist[0]);
+                if (dist[0]>radius){
+                    parking2.setVisible(false);
+                }else{
+                    parking2.setVisible(true);
+                }
+
+                Location.distanceBetween(gps.getLatitude(), gps.getLongitude(), 48.270447303657924, 4.065794348716736, dist);
+                parking3 = googleMap.addMarker(new MarkerOptions().position(new LatLng(48.270447303657924, 4.065794348716736))
+                        .title("Marc S")
+                        .snippet("Il y a 2 heures")
+                        .icon(BitmapDescriptorFactory
+                                .defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
+                Log.i("coucou", "dist[0] : " + dist[0]);
+                if (dist[0]>radius){
+                    parking3.setVisible(false);
+                }else{
+                    parking3.setVisible(true);
+                }
+
+                Location.distanceBetween(gps.getLatitude(), gps.getLongitude(), 48.26921184758687, 4.064174294471741, dist);
+                parking4 = googleMap.addMarker(new MarkerOptions().position(new LatLng(48.26921184758687, 4.064174294471741))
+                        .title("Thomas B")
+                        .snippet("Il y a 5 minutes")
+                        .icon(BitmapDescriptorFactory
+                                .defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
+                Log.i("coucou", "dist[0] : " + dist[0]);
+                if (dist[0]>radius){
+                    parking4.setVisible(false);
+                }else{
+                    parking4.setVisible(true);
+                }
             }
         });
         return rootView;

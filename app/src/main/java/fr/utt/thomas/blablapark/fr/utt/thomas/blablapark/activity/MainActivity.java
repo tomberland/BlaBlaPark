@@ -6,6 +6,9 @@ import android.support.v7.app.ActionBar;
 import android.support.v4.app.FragmentManager;
 import android.os.Bundle;
 import android.view.Menu;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import fr.utt.thomas.blablapark.R;
 import fr.utt.thomas.blablapark.fr.utt.thomas.blablapark.fragment.FindCar;
@@ -64,19 +67,32 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
                     .replace(R.id.container, Profil.newInstance(),"profil")
                     .commit();
         } else if (position == 2) {
-            fragmentManager.beginTransaction()
-                    .replace(R.id.container, SaveCar.newInstance(),"savecar")
-                    .commit();
+//            fragmentManager.beginTransaction()
+//                    .replace(R.id.container, SaveCar.newInstance(),"savecar")
+//                    .commit();
+
+                Toast toast = Toast.makeText(getApplicationContext(), getString(R.string.message_position_voiture_enregistre), Toast.LENGTH_LONG);
+                LinearLayout toastLayout = (LinearLayout) toast.getView();
+                TextView toastTV = (TextView) toastLayout.getChildAt(0);
+                toastTV.setTextSize(20);
+                toast.show();
+
         } else if (position == 3) {
             fragmentManager.beginTransaction()
                     .replace(R.id.container, FindCar.newInstance(),"findcar")
                     .commit();
         }
         else if (position == 4) {
-        fragmentManager.beginTransaction()
-                .replace(R.id.container, LocateCommunityPlace.newInstance(),"locatecommunityplace")
-                .commit();
-    }
+//        fragmentManager.beginTransaction()
+//                .replace(R.id.container, LocateCommunityPlace.newInstance(),"locatecommunityplace")
+//                .commit();
+
+            Toast toast = Toast.makeText(getApplicationContext(), getString(R.string.message_locate_empty_place), Toast.LENGTH_LONG);
+            LinearLayout toastLayout = (LinearLayout) toast.getView();
+            TextView toastTV = (TextView) toastLayout.getChildAt(0);
+            toastTV.setTextSize(20);
+            toast.show();
+        }
     }
 
     public void onSectionAttached(int number) {
