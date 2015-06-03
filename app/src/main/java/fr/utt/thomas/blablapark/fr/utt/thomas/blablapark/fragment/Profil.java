@@ -56,6 +56,7 @@ public class Profil extends Fragment {
         listItem2.add("marc.sirisak@utt.fr");
         listItem2.add("********");
         ratingBar = (RatingBar) rootView.findViewById(R.id.ratingBar);
+        final int blueColor = Color.parseColor("#25B9EF");
         ListView listview = (ListView) rootView.findViewById(R.id.listView);
         adapter = new ArrayAdapter<String>(getActivity(),
                 android.R.layout.simple_list_item_2, android.R.id.text1, listItem){
@@ -67,7 +68,7 @@ public class Profil extends Fragment {
                 TextView text2 = (TextView) view.findViewById(android.R.id.text2);
 
                 text1.setText(listItem.get(position).toString());
-                text1.setTextColor(-1);
+                text1.setTextColor(blueColor);
                 text1.setTextSize(15);
                 text2.setText(listItem2.get(position).toString());
                 text2.setTextSize(15);
@@ -78,7 +79,7 @@ public class Profil extends Fragment {
         listview.setAdapter(adapter);
         ratingBar.setRating(2);
         LayerDrawable stars = (LayerDrawable) ratingBar.getProgressDrawable();
-        stars.getDrawable(2).setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP);
+        stars.getDrawable(2).setColorFilter(Color.YELLOW, PorterDuff.Mode.SRC_ATOP);
         ratingBar.setEnabled(false);
         return rootView;
     }
