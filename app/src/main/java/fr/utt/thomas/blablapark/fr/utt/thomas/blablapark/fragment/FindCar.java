@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -102,21 +103,10 @@ public class FindCar extends Fragment {
         googleMap.animateCamera(CameraUpdateFactory.zoomTo(14), 3000, null);
     }
 
-//    // TODO: Rename method, update argument and hook method into UI event
-//    public void onButtonPressed(Uri uri) {
-//        if (mListener != null) {
-//            mListener.onFragmentInteraction(uri);
-//        }
-//    }
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onBackPressed(Activity activity) {
-        ((MainActivity) activity).onSectionAttached(4);
-        ((MainActivity) getActivity()).onBackPressed();
-    }
-
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
+  //      ((MainActivity) activity).restoreActionBar();
         ((MainActivity) activity).onSectionAttached(4);
     }
 
@@ -124,6 +114,8 @@ public class FindCar extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+        ((MainActivity) getActivity()).onSectionAttached(1);
+        ((MainActivity) getActivity()).restoreActionBar();
     }
 
     public interface OnFragmentInteractionListener {

@@ -1,15 +1,10 @@
 package fr.utt.thomas.blablapark.fr.utt.thomas.blablapark.activity;
 
-import android.support.v7.app.ActionBarActivity;
+import android.app.Activity;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
-
 import fr.utt.thomas.blablapark.R;
-import fr.utt.thomas.blablapark.fr.utt.thomas.blablapark.ParkingDisplay.GPSTracker;
 
-public class InscriptionActivity extends ActionBarActivity {
+public class InscriptionActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -5,6 +5,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.FragmentManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -13,10 +14,8 @@ import android.widget.Toast;
 import fr.utt.thomas.blablapark.R;
 import fr.utt.thomas.blablapark.fr.utt.thomas.blablapark.fragment.FindCar;
 import fr.utt.thomas.blablapark.fr.utt.thomas.blablapark.fragment.Home;
-import fr.utt.thomas.blablapark.fr.utt.thomas.blablapark.fragment.LocateCommunityPlace;
 import fr.utt.thomas.blablapark.fr.utt.thomas.blablapark.fragment.NavigationDrawerFragment;
 import fr.utt.thomas.blablapark.fr.utt.thomas.blablapark.fragment.Profil;
-import fr.utt.thomas.blablapark.fr.utt.thomas.blablapark.fragment.SaveCar;
 import fr.utt.thomas.blablapark.fr.utt.thomas.blablapark.verificator.GpsVerificator;
 
 
@@ -32,9 +31,6 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
      */
     private CharSequence mTitle;
 
-//    LocationManager locMgr;
-//    SupportMapFragment mapFrag;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,10 +43,6 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
         // Set up the drawer.
         mNavigationDrawerFragment.setUp(R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
-
-        //Affiche un pop-up pour nous avertir que le GPS n'est pas activé sur notre téléphone et nous permet de l'activer
-        GpsVerificator gpsVerificator = new GpsVerificator(this);
-        gpsVerificator.getGpsLocalizationResult();
     }
 
     @Override
@@ -58,18 +50,23 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
         // update the main content by replacing fragments
         FragmentManager fragmentManager = getSupportFragmentManager();
         if (position == 0) {
+
+//            fragmentManager.beginTransaction()
+//                    .replace(R.id.container, Home.newInstance(),"home")
+//                    .commit();
             fragmentManager.beginTransaction()
-                    .replace(R.id.container, Home.newInstance(),"home")
+                    .add(R.id.container, Home.newInstance())
+                    .addToBackStack("fragBack")
                     .commit();
 
         } else if (position == 1) {
+
             fragmentManager.beginTransaction()
-                    .replace(R.id.container, Profil.newInstance(),"profil")
+                    .add(R.id.container, Profil.newInstance())
+                    .addToBackStack("fragBack")
                     .commit();
+
         } else if (position == 2) {
-//            fragmentManager.beginTransaction()
-//                    .replace(R.id.container, SaveCar.newInstance(),"savecar")
-//                    .commit();
 
                 Toast toast = Toast.makeText(getApplicationContext(), getString(R.string.message_position_voiture_enregistre), Toast.LENGTH_LONG);
                 LinearLayout toastLayout = (LinearLayout) toast.getView();
@@ -78,14 +75,14 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
                 toast.show();
 
         } else if (position == 3) {
+
             fragmentManager.beginTransaction()
-                    .replace(R.id.container, FindCar.newInstance(),"findcar")
+                    .add(R.id.container, FindCar.newInstance())
+                    .addToBackStack("fragBack")
                     .commit();
+
         }
         else if (position == 4) {
-//        fragmentManager.beginTransaction()
-//                .replace(R.id.container, LocateCommunityPlace.newInstance(),"locatecommunityplace")
-//                .commit();
 
             Toast toast = Toast.makeText(getApplicationContext(), getString(R.string.message_locate_empty_place), Toast.LENGTH_LONG);
             LinearLayout toastLayout = (LinearLayout) toast.getView();

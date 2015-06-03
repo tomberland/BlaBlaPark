@@ -15,6 +15,7 @@ import android.widget.TextView;
 import fr.utt.thomas.blablapark.R;
 import fr.utt.thomas.blablapark.fr.utt.thomas.blablapark.ParkingDisplay.GPSTracker;
 import fr.utt.thomas.blablapark.fr.utt.thomas.blablapark.localDataBase.MyDatabaseAdapter;
+import fr.utt.thomas.blablapark.fr.utt.thomas.blablapark.verificator.GpsVerificator;
 import fr.utt.thomas.blablapark.fr.utt.thomas.blablapark.verificator.TextFieldVerificator;
 
 public class ConnexionActivity extends Activity {
@@ -23,6 +24,7 @@ public class ConnexionActivity extends Activity {
     TextView password;
     TextFieldVerificator textFieldVerificator;
     MyDatabaseAdapter dbAdaptater;
+    GPSTracker gps;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,7 +41,6 @@ public class ConnexionActivity extends Activity {
         textFieldVerificator.setEmailVerif(email);
         textFieldVerificator.setPassVerif(password);
         textFieldVerificator.afficheResult();
-
 
         //à commenter si veut pas passer 3h à rentrer qqch, utile pour nous pour le moment, pour nos tests
   //      if (textFieldVerificator.result) {
@@ -58,8 +59,16 @@ public class ConnexionActivity extends Activity {
                 Intent intent = new Intent(this, MainActivity.class);
                 this.startActivity(intent);
             }*/
+
+        //   creating GPS Class object
+        gps = new GPSTracker(this);
+        //Affiche un pop-up pour nous avertir que le GPS n'est pas activé sur notre téléphone et nous permet de l'activer
+        GpsVerificator gpsVerificator = new GpsVerificator(this);
+        gpsVerificator.getGpsLocalizationResult();
+        if (gps.canGetLocation()) {
             Intent intent = new Intent(this, MainActivity.class);
             this.startActivity(intent);
+        }
  //       }
     }
 

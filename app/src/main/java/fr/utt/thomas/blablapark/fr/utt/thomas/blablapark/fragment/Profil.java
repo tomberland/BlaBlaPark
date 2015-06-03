@@ -80,40 +80,6 @@ public class Profil extends Fragment {
         LayerDrawable stars = (LayerDrawable) ratingBar.getProgressDrawable();
         stars.getDrawable(2).setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP);
         ratingBar.setEnabled(false);
-
-        rootView.setFocusableInTouchMode(true);
-        rootView.requestFocus();
-        rootView.setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                Log.i("fragment", "keyCode: " + keyCode);
-                if (keyCode == KeyEvent.KEYCODE_BACK) {
-
-                    if (getFragmentManager().findFragmentByTag("home") == null) {
-                        Log.i("fragment", "onKey Back listener is working!!!");
-                        getFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-                        Fragment home = new Home();
-                        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-                        if(!isAdded())
-                        {
-                            fragmentTransaction.add(home, "home");
-                        }
-                        fragmentTransaction.replace(R.id.container, home);
-                        fragmentTransaction.commit();
-                    }else
-                    {
-                        Log.i("fragment", "no adding again te fragment!!!");
-                        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-                        fragmentTransaction.replace(R.id.container, getFragmentManager().findFragmentByTag("home"));
-                        fragmentTransaction.commit();
-                    }
-                    return true;
-                } else {
-                    return false;
-                }
-            }
-        });
-
         return rootView;
     }
 /*
@@ -134,6 +100,8 @@ public class Profil extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+        ((MainActivity) getActivity()).onSectionAttached(1);
+        ((MainActivity) getActivity()).restoreActionBar();
     }
 
     public interface OnFragmentInteractionListener {
