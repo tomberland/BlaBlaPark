@@ -11,13 +11,14 @@
 
     <ImageButton
         android:layout_width="wrap_content"
-        android:layout_height="100dp"
+        android:layout_height="180dp"
         android:id="@+id/searchButton"
         android:layout_gravity="bottom"
-        android:layout_centerHorizontal="true"
         android:background="@android:color/transparent"
-        android:src="@drawable/search2"
-        android:layout_alignBottom="@+id/map" />
+        android:src="@drawable/searchfinal"
+        android:paddingBottom="25dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
 
     <TextView
         android:id="@+id/textView1"
