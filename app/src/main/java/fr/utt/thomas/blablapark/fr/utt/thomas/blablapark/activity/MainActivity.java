@@ -1,12 +1,16 @@
 package fr.utt.thomas.blablapark.fr.utt.thomas.blablapark.activity;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.FragmentManager;
 import android.os.Bundle;
+import android.text.Html;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -126,25 +130,25 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
             // if the drawer is not showing. Otherwise, let the drawer
             // decide what to show in the action bar.
 
- //           getMenuInflater().inflate(R.menu.main, menu);
+            getMenuInflater().inflate(R.menu.main, menu);
             restoreActionBar();
             return true;
         }
         return super.onCreateOptionsMenu(menu);
     }
 
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        // Handle action bar item clicks here. The action bar will
-//        // automatically handle clicks on the Home/Up button, so long
-//        // as you specify a parent activity in AndroidManifest.xml.
-//        switch (item.getItemId()) {
-//            case R.id.send_new_place :
-//
-//                //lance l'activité Préférences
-////                Intent intent1 = new Intent(getActivity(), Preference.class);
-////                startActivity(intent1);
-//
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        switch (item.getItemId()) {
+            case R.id.action_help :
+
+                //lance l'activité Préférences
+//                Intent intent1 = new Intent(getActivity(), Preference.class);
+//                startActivity(intent1);
+
 //                //pas Toast basique, on agrandit le texte ici
 //                Toast toast = Toast.makeText(getApplicationContext(), "Coucou3", Toast.LENGTH_LONG);
 //                LinearLayout toastLayout = (LinearLayout) toast.getView();
@@ -155,31 +159,31 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
 //                return true;
 //
 //            case R.id.save_car_position:
-//                AlertDialog.Builder builder = new AlertDialog.Builder(this);
-//                builder.setTitle("Coucou1");
-////                builder.setTitle(getString(R.string.recapitulatif));
-//                builder.setMessage(Html.fromHtml("<font color='#33b5e5'>Coucou2 </b></font>"))
-//                        .setPositiveButton("yes", new DialogInterface.OnClickListener() {
-//                            public void onClick(DialogInterface dialog, int id) {
-//                            }
-//                        })
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle("Aide");
+//                builder.setTitle(getString(R.string.recapitulatif));
+                builder.setMessage(Html.fromHtml("<font color='#33b5e5'>- Appuyez sur \"Search Parking\" pour afficher les places communautaires (points verts).<br><br>- Ceux en rouge indiquent les parkings connus.<br><br>- Appuyez sur un de ces points puis sur le bouton en bas à droite pour commencer la navigation.</font>"))
+                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                            }
+                        })
 //                        .setNegativeButton("no", new DialogInterface.OnClickListener() {
 //                            public void onClick(DialogInterface dialog, int id) {
 //                            }
 //                        })
-////                        .setNeutralButton(R.string.show_map, new DialogInterface.OnClickListener() {
-////                            public void onClick(DialogInterface dialog, int id) {
-////                            }
-////                        })
-//                ;
-//                // Creer l'alerte
-//                AlertDialog alertDialog = builder.create();
-//
-//                // Afficher l'alerte
-//                alertDialog.show();
-//                return true;
-//            default:
-//                return super.onOptionsItemSelected(item);
-//        }
-//    }
+//                        .setNeutralButton(R.string.show_map, new DialogInterface.OnClickListener() {
+//                            public void onClick(DialogInterface dialog, int id) {
+//                            }
+//                        })
+                ;
+                // Creer l'alerte
+                AlertDialog alertDialog = builder.create();
+
+                // Afficher l'alerte
+                alertDialog.show();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 }

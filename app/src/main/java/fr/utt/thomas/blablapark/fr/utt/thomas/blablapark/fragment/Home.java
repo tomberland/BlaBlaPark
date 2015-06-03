@@ -305,7 +305,7 @@ public class Home extends Fragment {
                         }
                     } else if (status.equals("ZERO_RESULTS")) {
                         // Zero results found
-                        MessageDB.message(getActivity(), "Sorry no places found. Try to change the types of places");
+                        MessageDB.message(getActivity(), "Sorry no places found. Try to change the search area");
                     } else if (status.equals("UNKNOWN_ERROR")) {
                         MessageDB.message(getActivity(), "Sorry unknown error occured.");
                     } else if (status.equals("OVER_QUERY_LIMIT")) {

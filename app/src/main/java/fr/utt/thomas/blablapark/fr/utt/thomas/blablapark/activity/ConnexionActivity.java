@@ -30,7 +30,7 @@ public class ConnexionActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_connexion);
         textFieldVerificator = new TextFieldVerificator(this,email,password);
-        dbAdaptater = new MyDatabaseAdapter(this);
+ //       dbAdaptater = new MyDatabaseAdapter(this);
     }
 
     public void connexionClick(View view){

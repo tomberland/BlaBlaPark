@@ -110,7 +110,7 @@ public class    MyDatabaseAdapter {
         public MyDataBaseHelper(Context context) {
             super(context, DATABASE_NAME, null, DATABASE_VERSION);
             this.myContext = context;
-            MessageDB.message(myContext, "Constructor is called");
+        //    MessageDB.message(myContext, "Constructor is called");
         }
 
         @Override
