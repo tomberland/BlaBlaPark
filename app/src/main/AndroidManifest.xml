@@ -40,12 +40,9 @@
         </activity>
         <activity
             android:name=".fr.utt.thomas.blablapark.activity.InscriptionActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="portrait"
             android:label="@string/title_activity_inscription" >
-        </activity>
-        <activity
-            android:name=".fr.utt.thomas.blablapark.ParkingDisplay.PlaceMapActivity"
-            android:label="@string/title_activity_place_map" >
         </activity>
     </application>
 
