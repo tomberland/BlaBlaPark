@@ -2,6 +2,7 @@ package fr.utt.thomas.blablapark.fr.utt.thomas.blablapark.fragment;
 
 import android.app.Activity;
 import android.app.FragmentManager;
+import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.LayerDrawable;
@@ -32,6 +33,7 @@ public class Profil extends Fragment {
     private List<String> listItem2;
     private RatingBar ratingBar;
     private OnFragmentInteractionListener mListener;
+    private ListView mDrawerListView;
 
     public static Profil newInstance() {
         Profil fragment = new Profil();
@@ -47,6 +49,8 @@ public class Profil extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_profil, container,
                 false);
 
+        getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
         listItem = new ArrayList<String>();
         listItem.add("Pseudo");
         listItem.add("Email");
@@ -56,7 +60,7 @@ public class Profil extends Fragment {
         listItem2.add("marc.sirisak@utt.fr");
         listItem2.add("********");
         ratingBar = (RatingBar) rootView.findViewById(R.id.ratingBar);
-        final int blueColor = Color.parseColor("#25B9EF");
+        final int blueColor = Color.parseColor("#4682B4");
         ListView listview = (ListView) rootView.findViewById(R.id.listView);
         adapter = new ArrayAdapter<String>(getActivity(),
                 android.R.layout.simple_list_item_2, android.R.id.text1, listItem){
@@ -103,6 +107,10 @@ public class Profil extends Fragment {
         mListener = null;
         ((MainActivity) getActivity()).onSectionAttached(1);
         ((MainActivity) getActivity()).restoreActionBar();
+  //      ((MainActivity) getActivity()).onNavigationDrawerItemSelected(0);
+
+        mDrawerListView = (ListView) getActivity().findViewById(R.id.navList);
+        mDrawerListView.setItemChecked(0, true);
     }
 
     public interface OnFragmentInteractionListener {

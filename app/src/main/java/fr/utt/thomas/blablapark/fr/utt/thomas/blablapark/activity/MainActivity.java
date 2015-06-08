@@ -12,18 +12,27 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.IOException;
+
 import fr.utt.thomas.blablapark.R;
+import fr.utt.thomas.blablapark.fr.utt.thomas.blablapark.ParkingDisplay.GPSTracker;
 import fr.utt.thomas.blablapark.fr.utt.thomas.blablapark.fragment.FindCar;
 import fr.utt.thomas.blablapark.fr.utt.thomas.blablapark.fragment.Home;
+import fr.utt.thomas.blablapark.fr.utt.thomas.blablapark.fragment.Localisation;
 import fr.utt.thomas.blablapark.fr.utt.thomas.blablapark.fragment.NavigationDrawerFragment;
 import fr.utt.thomas.blablapark.fr.utt.thomas.blablapark.fragment.Profil;
 import fr.utt.thomas.blablapark.fr.utt.thomas.blablapark.verificator.GpsVerificator;
 
 
 public class MainActivity extends ActionBarActivity implements NavigationDrawerFragment.NavigationDrawerCallbacks {
+
+    GPSTracker gps;
+    private Localisation localisation;
+    private ListView mDrawerListView;
 
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
@@ -55,13 +64,13 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
         FragmentManager fragmentManager = getSupportFragmentManager();
         if (position == 0) {
 
-//            fragmentManager.beginTransaction()
-//                    .replace(R.id.container, Home.newInstance(),"home")
-//                    .commit();
             fragmentManager.beginTransaction()
-                    .add(R.id.container, Home.newInstance())
-                    .addToBackStack("fragBack")
+                    .replace(R.id.container, Home.newInstance(),"home")
                     .commit();
+//            fragmentManager.beginTransaction()
+//                    .add(R.id.container, Home.newInstance())
+//                    .addToBackStack("fragBack")
+//                    .commit();
 
         } else if (position == 1) {
 
@@ -72,11 +81,28 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
 
         } else if (position == 2) {
 
+            //   creating GPS Class object
+            gps = new GPSTracker(this);
+
+            localisation = new Localisation();
+            localisation.setLatitude(Double.toString(gps.getLatitude()));
+            localisation.setLongitude(Double.toString(gps.getLongitude()));
+
+            try {
+                localisation.sauvegarder(this);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
                 Toast toast = Toast.makeText(getApplicationContext(), getString(R.string.message_position_voiture_enregistre), Toast.LENGTH_LONG);
                 LinearLayout toastLayout = (LinearLayout) toast.getView();
                 TextView toastTV = (TextView) toastLayout.getChildAt(0);
                 toastTV.setTextSize(20);
                 toast.show();
+
+            mDrawerListView = (ListView) findViewById(R.id.navList);
+            mDrawerListView.setItemChecked(0, true);
+
 
         } else if (position == 3) {
 
@@ -93,6 +119,9 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
             TextView toastTV = (TextView) toastLayout.getChildAt(0);
             toastTV.setTextSize(20);
             toast.show();
+
+            mDrawerListView = (ListView) findViewById(R.id.navList);
+            mDrawerListView.setItemChecked(0, true);
         }
     }
 

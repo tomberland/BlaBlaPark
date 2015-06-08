@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -29,6 +30,7 @@ public class FindCar extends Fragment {
     MapView mMapView;
     private GoogleMap googleMap;
     private Localisation localisation;
+    private ListView mDrawerListView;
 
     private OnFragmentInteractionListener mListener;
 
@@ -70,6 +72,7 @@ public class FindCar extends Fragment {
 
         latitude = Double.parseDouble(localisation.getLatitude());
         longitude = Double.parseDouble(localisation.getLongitude());
+        Log.i("coucou", "location: " + latitude + " " + longitude);
 
         LatLng oldPosition = new LatLng(latitude, longitude);
 
@@ -92,7 +95,7 @@ public class FindCar extends Fragment {
 
 //        latitude = Double.parseDouble(localisation.getLatitude());
 //        longitude = Double.parseDouble(localisation.getLongitude());
-//        Log.i("coucou", "location: " + latitude + " " + longitude);
+        Log.i("coucou", "location: " + latitude + " " + longitude);
 
         LatLng currentPosition = new LatLng(latitude, longitude);
 
@@ -116,6 +119,8 @@ public class FindCar extends Fragment {
         mListener = null;
         ((MainActivity) getActivity()).onSectionAttached(1);
         ((MainActivity) getActivity()).restoreActionBar();
+        mDrawerListView = (ListView) getActivity().findViewById(R.id.navList);
+        mDrawerListView.setItemChecked(0, true);
     }
 
     public interface OnFragmentInteractionListener {

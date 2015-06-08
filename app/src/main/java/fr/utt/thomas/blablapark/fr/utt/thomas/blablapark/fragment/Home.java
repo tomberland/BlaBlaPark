@@ -21,6 +21,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
+import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
@@ -84,13 +85,18 @@ public class Home extends Fragment {
             e.printStackTrace();
         }
 
+        //   creating GPS Class object
+        gps = new GPSTracker(getActivity());
+
+        LatLng currentPosition = new LatLng(gps.getLatitude(), gps.getLongitude());
         googleMap = mMapView.getMap();
         googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
         googleMap.setMyLocationEnabled(true);
+        googleMap.addMarker(new MarkerOptions()
+                .position(currentPosition)
+                .icon(BitmapDescriptorFactory
+                        .fromResource(R.drawable.voiture)));
         googleMap.getUiSettings().setCompassEnabled(true);
-
-        //   creating GPS Class object
-        gps = new GPSTracker(getActivity());
 
         // check if GPS location can get
         if (gps.canGetLocation()) {
@@ -339,6 +345,8 @@ public class Home extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+        ((MainActivity) getActivity()).onSectionAttached(1); //à voir si commenté
+        ((MainActivity) getActivity()).restoreActionBar();
     }
 
     public interface OnFragmentInteractionListener {
