@@ -1,14 +1,14 @@
 package fr.utt.thomas.blablapark.fr.utt.thomas.blablapark.activity;
 
+/**
+ * Created by Ismail on 01/05/2015.
+ * Gère la 1ère page de l'application
+ * L'utilisateur doit rentrer ses identifiants pour se connecter
+ */
+
 import android.app.Activity;
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
-import android.os.Handler;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
@@ -42,8 +42,8 @@ public class ConnexionActivity extends Activity {
         textFieldVerificator.setPassVerif(password);
         textFieldVerificator.afficheResult();
 
-        //à commenter si veut pas passer 3h à rentrer qqch, utile pour nous pour le moment, pour nos tests
-  //      if (textFieldVerificator.result) {
+        //vérifie que les champs ne sont pas vides
+        if (textFieldVerificator.result) {
 
             /*Local database
            dbAdaptater = new MyDatabaseAdapter(this);
@@ -60,42 +60,24 @@ public class ConnexionActivity extends Activity {
                 this.startActivity(intent);
             }*/
 
-        //   creating GPS Class object
-        gps = new GPSTracker(this);
-        //Affiche un pop-up pour nous avertir que le GPS n'est pas activé sur notre téléphone et nous permet de l'activer
-        GpsVerificator gpsVerificator = new GpsVerificator(this);
-        gpsVerificator.getGpsLocalizationResult();
-        if (gps.canGetLocation()) {
-            Intent intent = new Intent(this, MainActivity.class);
-            this.startActivity(intent);
+            //creating GPS Class object
+            gps = new GPSTracker(this);
+            //Affiche un pop-up pour nous avertir que le GPS n'est pas activé sur notre téléphone et nous permet de l'activer
+            GpsVerificator gpsVerificator = new GpsVerificator(this);
+            gpsVerificator.getGpsLocalizationResult();
+
+            // check if GPS location can get. If yes, launch next activity
+            if (gps.canGetLocation()) {
+                Intent intent = new Intent(this, MainActivity.class);
+                this.startActivity(intent);
+            }
         }
- //       }
     }
 
+    //si l'utilisateur clique sur le bouton Inscription, lance l'activité
     public void inscriptionClick(View view)
     {
         Intent intent = new Intent(this, InscriptionActivity.class);
         this.startActivity(intent);
     }
-
-
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        // Inflate the menu; this adds items to the action bar if it is present.
-//        getMenuInflater().inflate(R.menu.menu_connexion, menu);
-//        return true;
-//    }
-//
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        // Handle action bar item clicks here. The action bar will
-//        // automatically handle clicks on the Home/Up button, so long
-//        // as you specify a parent activity in AndroidManifest.xml.
-//        int id = item.getItemId();
-//
-//        //noinspection SimplifiableIfStatement
-//        if (id == R.id.action_settings) {
-//            return true;
-//        }
-//
-//        return super.onOptionsItemSelected(item);
-//    }
 }

@@ -1,10 +1,14 @@
 package fr.utt.thomas.blablapark.fr.utt.thomas.blablapark.fragment;
 
+/**
+ * Created by Thomas on 12/05/2015.
+ * Permet de retrouver sa voiture
+ */
+
 import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,10 +22,12 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import java.io.IOException;
-import fr.utt.thomas.blablapark.fr.utt.thomas.blablapark.activity.MainActivity;
-import fr.utt.thomas.blablapark.R;
 
+import java.io.IOException;
+
+import fr.utt.thomas.blablapark.R;
+import fr.utt.thomas.blablapark.fr.utt.thomas.blablapark.ParkingDisplay.Localisation;
+import fr.utt.thomas.blablapark.fr.utt.thomas.blablapark.activity.MainActivity;
 
 public class FindCar extends Fragment {
 
@@ -47,6 +53,7 @@ public class FindCar extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_find_car, container, false);
 
+        //affiche carte, centré sur sa voiture
         mMapView = (MapView) rootView.findViewById(R.id.map);
         mMapView.onCreate(savedInstanceState);
         mMapView.onResume();// needed to get the map to display immediately
@@ -64,6 +71,7 @@ public class FindCar extends Fragment {
 
         localisation = new Localisation();
 
+        //récupère les coordonnées de la voiture enregistrée dans le fichier
         try {
             localisation.recupererCoordonnees(getActivity());
         } catch (IOException e) {
@@ -72,44 +80,29 @@ public class FindCar extends Fragment {
 
         latitude = Double.parseDouble(localisation.getLatitude());
         longitude = Double.parseDouble(localisation.getLongitude());
-        Log.i("coucou", "location: " + latitude + " " + longitude);
 
         LatLng oldPosition = new LatLng(latitude, longitude);
 
+        //affiche un marker à la position de la voiture
         Marker voiture = googleMap.addMarker(new MarkerOptions()
                 .position(oldPosition)
                 .title("Ma voiture")
                 .snippet("est ici")
- //               .icon(BitmapDescriptorFactory
- //                       .defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
- //                       .fromResource(android.R.drawable.ic_menu_mylocation)));               //ce serait bien de mettre une petite icone
                   .icon(BitmapDescriptorFactory
                           .fromResource(R.drawable.voiture)));
 
-        zoom();
-
-        return rootView;
-    }
-
-    public void zoom() {
-
-//        latitude = Double.parseDouble(localisation.getLatitude());
-//        longitude = Double.parseDouble(localisation.getLongitude());
-        Log.i("coucou", "location: " + latitude + " " + longitude);
-
-        LatLng currentPosition = new LatLng(latitude, longitude);
-
         // Move the camera instantly to the currentPosition with a zoom of 10.
-        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentPosition, 10));
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(oldPosition, 10));
 
         // Zoom in, animating the camera.
         googleMap.animateCamera(CameraUpdateFactory.zoomTo(14), 3000, null);
+
+        return rootView;
     }
 
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-  //      ((MainActivity) activity).restoreActionBar();
         ((MainActivity) activity).onSectionAttached(4);
     }
 
@@ -117,8 +110,12 @@ public class FindCar extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+
+        //permet de revenir sur l'Accueil si l'utilisateur clique sur le bouton retour
         ((MainActivity) getActivity()).onSectionAttached(1);
         ((MainActivity) getActivity()).restoreActionBar();
+
+        //permet au navigationDrawer de ne pas rester sur Trouver ma voiture
         mDrawerListView = (ListView) getActivity().findViewById(R.id.navList);
         mDrawerListView.setItemChecked(0, true);
     }
@@ -127,5 +124,4 @@ public class FindCar extends Fragment {
         // TODO: Update argument type and name
         public void onFragmentInteraction(Uri uri);
     }
-
 }

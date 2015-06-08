@@ -7,8 +7,6 @@ import java.io.Serializable;
 
 import com.google.api.client.util.Key;
 
-
-
 public class PlaceDetails implements Serializable {
 
     @Key

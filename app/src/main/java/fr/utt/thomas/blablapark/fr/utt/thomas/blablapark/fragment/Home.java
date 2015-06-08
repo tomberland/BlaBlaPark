@@ -1,5 +1,10 @@
 package fr.utt.thomas.blablapark.fr.utt.thomas.blablapark.fragment;
 
+/**
+ * Created by Marc on 12/05/2015.
+ * Gère le fragment d'accueil
+ */
+
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.SharedPreferences;
@@ -10,53 +15,42 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.text.Html;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.SeekBar;
 import android.widget.TextView;
+
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
-import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import java.util.ArrayList;
+
+import fr.utt.thomas.blablapark.R;
 import fr.utt.thomas.blablapark.fr.utt.thomas.blablapark.ParkingDisplay.GPSTracker;
 import fr.utt.thomas.blablapark.fr.utt.thomas.blablapark.ParkingDisplay.GooglePlaces;
 import fr.utt.thomas.blablapark.fr.utt.thomas.blablapark.ParkingDisplay.Place;
 import fr.utt.thomas.blablapark.fr.utt.thomas.blablapark.ParkingDisplay.PlacesList;
 import fr.utt.thomas.blablapark.fr.utt.thomas.blablapark.activity.MainActivity;
-import fr.utt.thomas.blablapark.R;
 import fr.utt.thomas.blablapark.fr.utt.thomas.blablapark.localDataBase.MessageDB;
 
 public class Home extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    private Localisation localisation;
-//    private String latitude;
-//    private String longitude;
-    private double longitude ;
-    private double latitude;
-    MapView mMapView;
-    private GoogleMap googleMap;
     private SharedPreferences sharedPreferences;
     private SeekBar seekBar;
     private TextView textView;
+    private GoogleMap googleMap;
+    MapView mMapView;
     int radius;
     GPSTracker gps;
-    float [] dist;
-    Marker parking1, parking2, parking3, parking4;
-
-    // Nearest places
     PlacesList nearPlaces;
-    ArrayList<String> listLatLng = new ArrayList<String>();
     ProgressDialog pDialog;
     GooglePlaces googlePlaces;
 
@@ -66,7 +60,6 @@ public class Home extends Fragment {
     }
 
     public Home() {
-
     }
 
     @Override
@@ -74,7 +67,7 @@ public class Home extends Fragment {
                              Bundle savedInstanceState) {
        final View rootView = inflater.inflate(R.layout.fragment_home, container, false);
 
-        //affiche carte en fond (centré sur soi, sans parking)
+        //affiche carte, centré sur soi, sans parking
         mMapView = (MapView) rootView.findViewById(R.id.map);
         mMapView.onCreate(savedInstanceState);
         mMapView.onResume();// needed to get the map to display immediately
@@ -85,10 +78,12 @@ public class Home extends Fragment {
             e.printStackTrace();
         }
 
-        //   creating GPS Class object
+        //creating GPS Class object
         gps = new GPSTracker(getActivity());
 
+        //récupère et crée notre position actuelle
         LatLng currentPosition = new LatLng(gps.getLatitude(), gps.getLongitude());
+
         googleMap = mMapView.getMap();
         googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
         googleMap.setMyLocationEnabled(true);
@@ -98,35 +93,36 @@ public class Home extends Fragment {
                         .fromResource(R.drawable.voiture)));
         googleMap.getUiSettings().setCompassEnabled(true);
 
-        // check if GPS location can get
-        if (gps.canGetLocation()) {
-            Log.i("coucou", "Dans onCreateView de Home : latitude:" + gps.getLatitude() + ", longitude: " + gps.getLongitude());
-        } else {
-            Log.i("coucou", "couldnt get location");
-        }
-
+        //appelle une fonction définit par la suite. Elle cherche les places aux alentours
         new LoadPlaces().execute();
 
-        zoom();
+        // Move the camera instantly to the currentPosition with a zoom of 10.
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentPosition, 10));
 
+        // Zoom in, animating the camera.
+        googleMap.animateCamera(CameraUpdateFactory.zoomTo(14), 3000, null);
+
+        //récupère le "radius" : périmètre de recherche définit par l'utilisateur
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        radius = Integer.valueOf(sharedPreferences.getString("Perimetre", "50"));
+        radius = Integer.valueOf(sharedPreferences.getString("Perimetre", "50")); //50 : valeur par défaut
 
-        Log.i("coucou", "radius : " + radius);
+        //définit la barre permettant de choisir le périmètre
         seekBar = (SeekBar) rootView.findViewById(R.id.seekBar);
-        seekBar.setProgress(radius / 100);
+        seekBar.setProgress(radius / 100); //valeur enregistré en km
         textView = (TextView) rootView.findViewById(R.id.textView1);
+        //affiche l'ancienne valeur, enregistrée lors de la précédent
         textView.setText(radius + " m");
 
+        //listener sur la seekBar
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            //progress : valeur sélectionnée
             int progress = radius;
 
             @Override
             public void onProgressChanged(SeekBar seekBar, int progresValue, boolean fromUser) {
 
                 progress = progresValue;
-                Log.i("coucou", "progress : " + progress);
-                textView.setText(progress * 100 + " m");
+                textView.setText(progress * 100 + " m"); //*100 pour avoir la valeur en mètre
             }
 
             @Override
@@ -136,19 +132,23 @@ public class Home extends Fragment {
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
 
+                //enregistre la valeur final du périmètre dans les préférences de l'application
                 sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
                 SharedPreferences.Editor editor = sharedPreferences.edit();
+                //valeur à enregistrer
                 String tmp = String.valueOf(progress * 100);
-                Log.i("coucou", "progress : " + progress * 100 + " tmp : " + tmp);
                 editor.putString("Perimetre", tmp); // value to store
                 editor.commit();
 
+                //efface la carte pour ne plus afficher les marqueurs plus dans le périmètre
                 googleMap.clear();
+
+                //appelle une fonction définit par la suite. Elle cherche les places aux alentours
                 new LoadPlaces().execute();
             }
         });
 
-        //Bouton central
+        //gère le bouton central. Il permet d'affichcer les places communautaires
         ((ImageButton) rootView.findViewById(R.id.searchButton)).setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -158,75 +158,85 @@ public class Home extends Fragment {
                 sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
                 radius = Integer.valueOf(sharedPreferences.getString("Perimetre", "50"));
 
-                dist = new float[1];
+                float [] dist = new float[1];
+
+              /**
+                * positions communautaires créées en dur ici
+                */
+
+                //calcul la distance entre notre position actuelle et une place
                 Location.distanceBetween(gps.getLatitude(), gps.getLongitude(), 48.2973451, 4.0744009000000005, dist);
-                parking1 = googleMap.addMarker(new MarkerOptions().position(new LatLng(48.2973451, 4.0744009000000005))
+
+                //crée un marker (point qui sera afficher sur la carte)
+                Marker parking1 = googleMap.addMarker(new MarkerOptions().position(new LatLng(48.2973451, 4.0744009000000005))
                         .title("Nicolas S")
                         .snippet("Il y a 1 minutes")
                         .icon(BitmapDescriptorFactory
                                 .defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
-                Log.i("coucou", "dist[0] : " + dist[0]);
+                //si la place se situent dans le périmètre, on l'affiche
                 if (dist[0]>radius){
                     parking1.setVisible(false);
                 }else{
                     parking1.setVisible(true);
                 }
 
+                //place 2
                 Location.distanceBetween(gps.getLatitude(), gps.getLongitude(), 48.295699762561306, 4.06818151473999, dist);
-                parking2 = googleMap.addMarker(new MarkerOptions().position(new LatLng(48.295699762561306, 4.06818151473999))
+                Marker parking2 = googleMap.addMarker(new MarkerOptions().position(new LatLng(48.295699762561306, 4.06818151473999))
                         .title("Ismail Y")
                         .snippet("Il y a 15 minutes")
                         .icon(BitmapDescriptorFactory
                                 .defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
-                Log.i("coucou", "dist[0] : " + dist[0]);
                 if (dist[0]>radius){
                     parking2.setVisible(false);
                 }else{
                     parking2.setVisible(true);
                 }
 
+                //place 3
                 Location.distanceBetween(gps.getLatitude(), gps.getLongitude(), 48.270447303657924, 4.065794348716736, dist);
-                parking3 = googleMap.addMarker(new MarkerOptions().position(new LatLng(48.270447303657924, 4.065794348716736))
+                Marker parking3 = googleMap.addMarker(new MarkerOptions().position(new LatLng(48.270447303657924, 4.065794348716736))
                         .title("Marc S")
                         .snippet("Il y a 2 heures")
                         .icon(BitmapDescriptorFactory
                                 .defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
-                Log.i("coucou", "dist[0] : " + dist[0]);
                 if (dist[0]>radius){
                     parking3.setVisible(false);
                 }else{
                     parking3.setVisible(true);
                 }
 
+                //place 4
                 Location.distanceBetween(gps.getLatitude(), gps.getLongitude(), 48.26921184758687, 4.064174294471741, dist);
-                parking4 = googleMap.addMarker(new MarkerOptions().position(new LatLng(48.26921184758687, 4.064174294471741))
+                Marker parking4 = googleMap.addMarker(new MarkerOptions().position(new LatLng(48.26921184758687, 4.064174294471741))
                         .title("Thomas B")
                         .snippet("Il y a 5 minutes")
                         .icon(BitmapDescriptorFactory
                                 .defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
-                Log.i("coucou", "dist[0] : " + dist[0]);
                 if (dist[0]>radius){
                     parking4.setVisible(false);
                 }else{
                     parking4.setVisible(true);
+                }
+
+                //place 5
+                Location.distanceBetween(gps.getLatitude(), gps.getLongitude(), 48.282736, 4.071035, dist);
+                Marker parking5 = googleMap.addMarker(new MarkerOptions().position(new LatLng(48.282736, 4.071035))
+                        .title("Nadia G")
+                        .snippet("Il y a 35 minutes")
+                        .icon(BitmapDescriptorFactory
+                                .defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
+                if (dist[0]>radius){
+                    parking5.setVisible(false);
+                }else{
+                    parking5.setVisible(true);
                 }
             }
         });
         return rootView;
     }
 
-    public void zoom() {
-
-        Log.i("coucou", "Dans zoom de Home : latitude:" + gps.getLatitude() + ", longitude: " + gps.getLongitude());
-        LatLng currentPosition = new LatLng(gps.getLatitude(), gps.getLongitude());
-
-        // Move the camera instantly to the currentPosition with a zoom of 10.
-        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentPosition, 10));
-
-        // Zoom in, animating the camera.
-        googleMap.animateCamera(CameraUpdateFactory.zoomTo(14), 3000, null);
-    }
-
+    //cherche les places de parking aux alentours, grâce à l'api GooglePlaces
     class LoadPlaces extends AsyncTask<String, String, String> {
 
         /**
@@ -255,16 +265,12 @@ public class Home extends Fragment {
                 //
                 String types = "parking"; // Listing places only cafes, restaurants
 
-                // Radius in meters - increase this value if you don't find any places
-//                double radius = 10000; // 1000 meters
-
+                //récupère le périmètre définit par l'utilisateur grâce à la seekBar
                 sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
                 radius = Integer.valueOf(sharedPreferences.getString("Perimetre", "5"));
-                Log.i("coucou", "radius : "+radius);
 
                 // get nearest places
-                nearPlaces = googlePlaces.search(gps.getLatitude(),
-                        gps.getLongitude(), radius, types);
+                nearPlaces = googlePlaces.search(gps.getLatitude(),gps.getLongitude(),radius,types);
 
 
             } catch (Exception e) {
@@ -345,8 +351,6 @@ public class Home extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
-        ((MainActivity) getActivity()).onSectionAttached(1); //à voir si commenté
-        ((MainActivity) getActivity()).restoreActionBar();
     }
 
     public interface OnFragmentInteractionListener {

@@ -37,6 +37,7 @@
         android:onClick="connexionClick"
         android:id="@+id/buttonConnexion"
         android:layout_above="@+id/textView4"
+        android:layout_marginBottom="20dp"
         android:layout_alignStart="@+id/buttonInscription" />
 
     <TextView
@@ -48,7 +49,7 @@
         android:textStyle="italic"
         android:layout_above="@+id/buttonInscription"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="20dp" />
+ />
 
     <Button
         style="?android:attr/buttonStyleSmall"

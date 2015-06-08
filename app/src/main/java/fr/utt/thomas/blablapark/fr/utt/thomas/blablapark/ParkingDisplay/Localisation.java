@@ -1,16 +1,11 @@
-package fr.utt.thomas.blablapark.fr.utt.thomas.blablapark.fragment;
+package fr.utt.thomas.blablapark.fr.utt.thomas.blablapark.ParkingDisplay;
 
 /**
  * Created by Thomas on 12/05/2015.
+ * Permet de créer une nouvelle localisation, de la sauvegarder dans un fichier, et de la récupérer
  */
 
 import android.content.Context;
-import android.location.Criteria;
-import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
-import android.os.Bundle;
-import android.util.Log;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -18,19 +13,11 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-//public class Localisation implements LocationListener {
-
 public class Localisation {
 
-    private LocationManager locMgr;
-    Location location;
-//    private double longitudeDouble ;
-//    private double latitudeDouble;
-    private Localisation localisation;
     private String latitude;
     private String longitude;
     private String nomFichier = "sauvegarde_localisation";
-    private StringBuffer coordonneesRecuperees;
 
     public Localisation(String latitude, String longitude) {
         this.latitude = latitude;
@@ -41,9 +28,8 @@ public class Localisation {
         this("0.0", "0.0");
     }
 
-    //sauvegarde l'O dans la mémoire du téléphone
+    //sauvegarde la position actuelle de la personne dans la mémoire du téléphone
     public void sauvegarder(Context context) throws IOException {
-        Log.i("coucou", "location sauvegarder : " + latitude + " " + longitude);
         FileOutputStream fos = context.openFileOutput(nomFichier, Context.MODE_PRIVATE);
         fos.write(this.toString().getBytes());
         fos.close();
@@ -51,7 +37,7 @@ public class Localisation {
 
     //récupère les coordonnées sauvegardées
     public void recupererCoordonnees(Context context) throws IOException {
-        coordonneesRecuperees = new StringBuffer();
+        StringBuffer coordonneesRecuperees = new StringBuffer();
         FileInputStream fis = context.openFileInput(nomFichier);
         BufferedReader reader = new BufferedReader(new InputStreamReader(fis));
         String line;
@@ -72,6 +58,7 @@ public class Localisation {
         }
     }
 
+    //constructeurs
     public String getLatitude() {
         return latitude;
     }
@@ -92,8 +79,4 @@ public class Localisation {
         return latitude + " " + longitude;
     }
 
-////    @Override
-//    protected void onResume() {
-//        super.onResume();
-//    }
 }
